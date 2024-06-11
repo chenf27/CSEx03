@@ -9,12 +9,12 @@ namespace Ex03.GarageLogic
 {
     internal class FuelTypeMotorcycle: Motorcycle
     {
-        private FuelTypeVehicleAttributes m_FuelMotorcycle;
+        private FuelTypeVehicleAttributes m_FuelTypeAttributes {  get; set; }
 
-        public FuelTypeMotorcycle(FuelTypeVehicleAttributes i_FuelMotorcycle, eLicenseType i_LicenseType, int i_EngineCapacity, string i_ModelName, string i_LicensePlate, float i_EnergyLeftInTank)
-        : base(i_LicenseType, i_EngineCapacity, i_ModelName, i_LicensePlate, i_EnergyLeftInTank)
+        public FuelTypeMotorcycle(FuelTypeVehicleAttributes i_FuelMotorcycle, eLicenseType i_LicenseType, int i_EngineCapacity, string i_ModelName, string i_LicensePlate, float i_EnergyLeftInTank, Tire[] i_Tires)
+        : base(i_LicenseType, i_EngineCapacity, i_ModelName, i_LicensePlate, i_EnergyLeftInTank, i_Tires)
         {
-            m_FuelMotorcycle = i_FuelMotorcycle;
+            m_FuelTypeAttributes = i_FuelMotorcycle;
         }
     }
 }

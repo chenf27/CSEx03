@@ -43,5 +43,22 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public void Charging(float i_HoursToCharge)
+        {
+            if (i_HoursToCharge < 0)
+            {
+                //PROBLEM!!
+            }
+            else if (i_HoursToCharge + m_RemainingBatteryHoursLeft > r_MaxBatteryHoursLeft)
+            {
+                //ANOTHER PROBLEM!!
+            }
+            else
+            {
+                m_RemainingBatteryHoursLeft += i_HoursToCharge;
+            }
+
+        }
+
     }
 }

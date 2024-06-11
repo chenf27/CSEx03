@@ -12,8 +12,8 @@ namespace Ex03.GarageLogic
         protected readonly eCarColor r_CarColor;
         protected readonly int r_NumOfDoors;
 
-        public Car(eCarColor i_CarColor, int i_NumOfDoors, string i_ModelName, string i_LicensePlate, float i_EnergyLeftInTank)
-        :base(i_ModelName, i_LicensePlate, i_EnergyLeftInTank)
+        public Car(eCarColor i_CarColor, int i_NumOfDoors, string i_ModelName, string i_LicensePlate, float i_EnergyLeftInTank, Tire[] i_Tires)
+        :base(i_ModelName, i_LicensePlate, i_EnergyLeftInTank, i_Tires)
         {
             r_CarColor = i_CarColor;
             r_NumOfDoors = i_NumOfDoors;

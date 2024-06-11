@@ -11,9 +11,11 @@ namespace Ex03.GarageLogic
     {
         protected readonly eLicenseType r_LicenseType;
         protected readonly int r_EngineCapacity;
+        public const float k_MaxAirPressure = 33;
+        public const int k_NumOfTires = 2;
 
-        public Motorcycle(eLicenseType i_LicenseType, int i_EngineCapacity, string i_ModelName, string i_LicensePlate, float i_EnergyLeftInTank)
-        :base(i_ModelName, i_LicensePlate, i_EnergyLeftInTank)
+        public Motorcycle(eLicenseType i_LicenseType, int i_EngineCapacity, string i_ModelName, string i_LicensePlate, float i_EnergyLeftInTank, Tire[] i_Tires)
+        :base(i_ModelName, i_LicensePlate, i_EnergyLeftInTank, i_Tires)
         {
             r_LicenseType = i_LicenseType;
             r_EngineCapacity = i_EngineCapacity;

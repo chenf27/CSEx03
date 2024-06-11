@@ -20,10 +20,21 @@ namespace Ex03.GarageLogic
         }
 
 
-        //TODO
+        //TODO EXCEPTIONS
         public void InflatingTire(float i_AirPressureToAdd)
         {
-
+            if (i_AirPressureToAdd < 0)
+            {
+                //PROBLEM!!
+            }
+            else if (i_AirPressureToAdd + m_CurrentAirPressure > r_MaxAirPressure)
+            {
+                //ANOTHER PROBLEM!!
+            }
+            else
+            {
+                m_CurrentAirPressure += i_AirPressureToAdd;
+            }
         }
 
         public string Manufacturer

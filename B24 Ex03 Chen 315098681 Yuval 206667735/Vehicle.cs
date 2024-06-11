@@ -11,15 +11,15 @@ namespace Ex03.GarageLogic
         protected readonly string r_ModelName;
         protected readonly string r_LicensePlate;
         protected float m_EnergyLeftInTank;
-        //protected Tire[] m_Tires;
-        //TODO TIRES
+        protected Tire[] m_Tires;
+        
 
-        public Vehicle(string i_ModelName, string i_LicensePlate, float i_EnergyLeftInTank) 
+        public Vehicle(string i_ModelName, string i_LicensePlate, float i_EnergyLeftInTank, Tire[] i_Tires) 
         {
             r_ModelName = i_ModelName;
             r_LicensePlate = i_LicensePlate;
             EnergyLeftInTank = i_EnergyLeftInTank;
-            //m_Tires = tires;
+            m_Tires = i_Tires;
         }
         
         public float EnergyLeftInTank
