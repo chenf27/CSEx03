@@ -9,7 +9,7 @@ namespace Ex03.GarageLogic
     public class Tire
     {
         private readonly string r_Manufacturer;
-        private float m_CurrentAirPressure {  get; set; }
+        private float m_CurrentAirPressure;
         private readonly float r_MaxAirPressure;
 
         public Tire(string i_Manufacturer, float i_CurrentAirPressure, float i_MaxAirPressure)
@@ -53,6 +53,17 @@ namespace Ex03.GarageLogic
             }
         }
         
+        public float CurrentAirPressure
+        {
+            get 
+            {
+                return m_CurrentAirPressure;
+            }
+            set
+            {
+                m_CurrentAirPressure = value;
+            }
+        }
         
 
     }

@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
-    public struct ElectricTypeVehicleAttributes
+    public class ElectricEngine
     {
         private readonly float r_MaxBatteryHoursLeft;
         private float m_RemainingBatteryHoursLeft;
 
 
-        public ElectricTypeVehicleAttributes(float i_MaxBatteryHoursLeft, float i_RemainingBatteryHoursLeft)
+        public ElectricEngine(float i_MaxBatteryHoursLeft)
         {
             r_MaxBatteryHoursLeft = i_MaxBatteryHoursLeft;
-            m_RemainingBatteryHoursLeft = i_RemainingBatteryHoursLeft;
         }
-        //TODO
+        
+
         public void CharceVechile(float i_HoursToCharge)
         {
             

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
-    public class FuelTypeVehicleAttributes
+    public class FuelEngine
     {
         private readonly eFuelType r_FuelType;
         private readonly float r_MaxFuelTankCapacity;
@@ -21,11 +21,17 @@ namespace Ex03.GarageLogic
             Octan98
         }
 
-        public FuelTypeVehicleAttributes(eFuelType i_FuelType, float i_MaxFuelTankCapacity, float i_CurrentFuelTankCapacity)
+        //public FuelTypeVehicleAttributes(eFuelType i_FuelType, float i_MaxFuelTankCapacity, float i_CurrentFuelTankCapacity)
+        //{
+        //    r_FuelType = i_FuelType;
+        //    r_MaxFuelTankCapacity = i_MaxFuelTankCapacity;
+        //    m_CurrentFuelTankCapacity = i_CurrentFuelTankCapacity;
+        //}
+
+        public FuelEngine(eFuelType i_FuelType, float i_MaxFuelTankCapacity)
         {
             r_FuelType = i_FuelType;
             r_MaxFuelTankCapacity = i_MaxFuelTankCapacity;
-            m_CurrentFuelTankCapacity = i_CurrentFuelTankCapacity;
         }
 
         public void Refueling(float i_LittersToAdd, eFuelType i_FuelType)
