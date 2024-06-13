@@ -69,7 +69,6 @@ namespace Ex03.ConsoleUI
                 
 
             }
-                
 
         }
 
@@ -162,7 +161,30 @@ namespace Ex03.ConsoleUI
             return carColor;
         }
 
-        private GarageManager.eVehicleType getVehicleType(int i_UserVehicleType)
+        private Motorcycle.eLicenseType convertMotorCycleLicenseType(int i_LicenseType)
+        {
+            Motorcycle.eLicenseType licenseType = Motorcycle.eLicenseType.A;
+            switch (i_LicenseType)
+            {
+                case 1:
+                    licenseType = Motorcycle.eLicenseType.A;
+                    break;
+                case 2:
+                    licenseType = Motorcycle.eLicenseType.A1;
+                    break;
+                case 3:
+                    licenseType = Motorcycle.eLicenseType.AA;
+                    break;
+                case 4:
+                    licenseType = Motorcycle.eLicenseType.B1;
+                    break;
+            }
+
+            return licenseType;
+        }
+
+
+        private eVehicleType getVehicleType(int i_UserVehicleType)
         {
             //TMP
             GarageManager.eVehicleType vehicleType = GarageManager.eVehicleType.ElectricCar;
@@ -190,13 +212,14 @@ namespace Ex03.ConsoleUI
             return vehicleType;
         }
 
-        private void getVehicleDetailsAndInitiate(GarageManager.eVehicleType i_VehicleType, Vehicle io_Vehicle, string i_LicensePlate)
+        private void getVehicleDetailsAndInitiate(eVehicleType i_VehicleType, Vehicle io_Vehicle, string i_LicensePlate)
         {
             string modelName;
             int numOfDoors;
             float percentOfEnergyLeftInTank;
             float airTirePressure;
             Car.eCarColor carColor;
+            Motorcycle.eLicenseType licenseType;
 
             Console.WriteLine("Please enter the model name:");
             modelName = Console.ReadLine();
@@ -224,6 +247,18 @@ namespace Ex03.ConsoleUI
                 bool.TryParse(Console.ReadLine(), out bool containsHazardousMaterials);
                 
             }
+            if (io_Vehicle is Motorcycle)
+            {
+                Console.WriteLine(@"What is your motorcycle's license type?
+1 - A
+2 - A1
+3 - AA
+4 - B1");
+                licenseType = convertMotorCycleLicenseType(int.Parse(Console.ReadLine()));
+                Console.WriteLine("What is your engine capacity?");
+                int.TryParse(Console.ReadLine(), out int engineCapacity);
+            }
+
             if (io_Vehicle is ElectricTypeCar || io_Vehicle is ElectricTypeMotorcycle)
             {
                 Console.WriteLine();

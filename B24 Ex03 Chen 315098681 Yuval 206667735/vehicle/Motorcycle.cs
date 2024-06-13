@@ -9,8 +9,8 @@ namespace Ex03.GarageLogic
 {
     public abstract class Motorcycle : Vehicle
     {
-        protected readonly eLicenseType e_LicenseType;
-        protected readonly int r_EngineCapacity;
+        protected eLicenseType m_LicenseType;
+        protected int m_EngineCapacity;
         
         public const float k_MaxAirPressure = 33;
         public const int k_NumOfTires = 2;
@@ -33,7 +33,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return r_EngineCapacity;
+                return m_EngineCapacity;
             }
         }
 
@@ -41,7 +41,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return e_LicenseType;
+                return m_LicenseType;
             }
         }
     }
