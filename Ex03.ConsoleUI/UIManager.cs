@@ -1,4 +1,5 @@
 ﻿using Ex03.GarageLogic;
+using Ex03.GarageLogic.vehicle;
 using System;
 using System.Collections.Generic;
 using static Ex03.GarageLogic.GarageManager; //TODO remove this when we fix the code and use exceptions
@@ -39,7 +40,7 @@ namespace Ex03.ConsoleUI
         public void AddVehicle()
         {
             string licensePlate;
-            GarageManager.eVehicleType vehicleType;
+            VehicleFactory.eVehicleType vehicleType;
             Vehicle vehicle;
 
             Console.WriteLine("Please enter the license plate of the vehicle");
@@ -61,10 +62,11 @@ namespace Ex03.ConsoleUI
                 vehicleType = getVehicleType(userVehicleTypeChoice);
                 vehicle = m_GarageManager.CreateVehicle(vehicleType);
 
+                
 
-                Dictionary<string, string> map = vehicle.GetInitiationParameters();
+               // Dictionary<string, string> map = vehicle.GetInitiationParameters();
 
-                vehicle.InitiateVehicle(map);
+                //vehicle.Initialize(map);
             }
 
         }
@@ -181,26 +183,26 @@ namespace Ex03.ConsoleUI
         }
 
 
-        private eVehicleType getVehicleType(int i_UserVehicleType)
+        private VehicleFactory.eVehicleType getVehicleType(int i_UserVehicleType)
         {
             //TMP
-            GarageManager.eVehicleType vehicleType = GarageManager.eVehicleType.ElectricCar;
+            VehicleFactory.eVehicleType vehicleType = VehicleFactory.eVehicleType.ElectricCar;
             switch (i_UserVehicleType)
             {
                 case 1:
-                    vehicleType = GarageManager.eVehicleType.ElectricCar;
+                    vehicleType = VehicleFactory.eVehicleType.ElectricCar;
                     break;
                 case 2:
-                    vehicleType = GarageManager.eVehicleType.FuelCar;
+                    vehicleType = VehicleFactory.eVehicleType.FuelCar;
                     break;
                 case 3:
-                    vehicleType = GarageManager.eVehicleType.ElectricMotorcycle;
+                    vehicleType = VehicleFactory.eVehicleType.ElectricMotorcycle;
                     break;
                 case 4:
-                    vehicleType = GarageManager.eVehicleType.FuelMotorcycle;
+                    vehicleType = VehicleFactory.eVehicleType.FuelMotorcycle;
                     break;
                 case 5:
-                    vehicleType = GarageManager.eVehicleType.Truck;
+                    vehicleType = VehicleFactory.eVehicleType.Truck;
                     break;
                 default:
                     //TODO  EXDPTION
@@ -209,7 +211,7 @@ namespace Ex03.ConsoleUI
             return vehicleType;
         }
 
-        private void getVehicleDetailsAndInitiate(eVehicleType i_VehicleType, Vehicle io_Vehicle, string i_LicensePlate)
+        private void getVehicleDetailsAndInitiate(VehicleFactory.eVehicleType i_VehicleType, Vehicle io_Vehicle, string i_LicensePlate)
         {
             string modelName;
             int numOfDoors;
@@ -265,6 +267,18 @@ namespace Ex03.ConsoleUI
             }
 
 
+        }
+
+        public VehicleInGarage.Owner GetOwnerDetails()
+        {
+            VehicleInGarage.Owner owner = new VehicleInGarage.Owner();
+
+            Console.WriteLine("Please enter your name:");
+            owner.Name = Console.ReadLine();
+            Console.WriteLine("Please enter your phone number:");
+            owner.Phone = Console.ReadLine();
+
+            return owner;
         }
     }
 }

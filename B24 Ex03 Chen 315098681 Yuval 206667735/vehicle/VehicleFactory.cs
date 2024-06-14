@@ -37,13 +37,13 @@ namespace Ex03.GarageLogic.vehicle
             throw new ArgumentException("Unsupported vehicle type!");
         }
 
-        public Dictionary<string, Type> CreateVehicleAndGetParameters(eVehicleType i_VehicleType)
+        public Dictionary<string, Type> InitializeVehicle(eVehicleType i_VehicleType)
         {
             Vehicle vehicle = CreateVehicle(i_VehicleType);
             return vehicle.GetParameters();
         }
 
-        public void InitializeVehicle(Vehicle i_Vehicle, Dictionary<string, object> parameters)
+        public void FillVehicleParameters(Vehicle i_Vehicle, Dictionary<string, object> parameters)
         {
             i_Vehicle.Initialize(parameters);
         }

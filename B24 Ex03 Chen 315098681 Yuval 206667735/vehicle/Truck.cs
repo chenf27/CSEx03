@@ -17,18 +17,7 @@ namespace Ex03.GarageLogic
         private const float k_MaxFuelTankCapacity = 120;
         private FuelEngine m_Engine = new FuelEngine(k_FuelType, k_MaxFuelTankCapacity);
 
-        //public Truck(bool i_ContainsHazardousMaterials, float i_CargoVolume, FuelTypeVehicleAttributes i_FuelTypeAttributes, string i_ModelName, string i_LicensePlate, float i_EnergyLeftInTank, Tire[] i_Tires) 
-        //:base(i_ModelName, i_LicensePlate, i_EnergyLeftInTank, i_Tires)
-        //{
-        //    m_ContainsHazardousMaterials = i_ContainsHazardousMaterials;
-        //    r_CargoVolume = i_CargoVolume;
-        //    m_FuelTypeAttributes = i_FuelTypeAttributes;
-        //}
-
-        public Truck()
-        {
-            
-        }
+        
 
         public float CargoVolume
         {
@@ -54,23 +43,23 @@ namespace Ex03.GarageLogic
         {
             return new Dictionary<string, Type>
             {
-                { "LicensePlate", typeof(string) },
-                { "ModelName", typeof(string) },
-                { "EnergyLeftInTank", typeof(float) },
-                { "ContainsHazardousMaterials", typeof(bool) },
-                { "CargoVolume", typeof(float) },
-                { "CurrentFuelTankCapacity", typeof(float) }
+                { "License Plate", typeof(string) },
+                { "Model Name", typeof(string) },
+                { "Energy Left In Tank", typeof(float) },
+                { "Contains Hazardous Materials", typeof(bool) },
+                { "Cargo Volume", typeof(float) },
+                { "Current Fuel Tank Capacity", typeof(float) }
             };
         }
 
         public override void Initialize(Dictionary<string, object> parameters)
         {
-            m_LicensePlate = parameters["LicensePlate"] as string;
-            m_ModelName = parameters["ModelName"] as string;
-            m_EnergyLeftInTank = (float)parameters["EnergyLeftInTank"];
-            m_ContainsHazardousMaterials = (bool)parameters["ContainsHazardousMaterials"];
-            m_CargoVolume = (float)parameters["CargoVolume"];
-            m_Engine.CurrentFuelTankCapacity = (float)parameters["CurrentFuelTankCapacity"];
+            m_LicensePlate = parameters["License Plate"] as string;
+            m_ModelName = parameters["Model Name"] as string;
+            m_EnergyLeftInTank = (float)parameters["Energy Left In Tank"];
+            m_ContainsHazardousMaterials = (bool)parameters["Contains Hazardous Materials"];
+            m_CargoVolume = (float)parameters["Cargo Volume"];
+            m_Engine.CurrentFuelTankCapacity = (float)parameters["Current Fuel Tank Capacity"];
         }
     }
 }

@@ -11,11 +11,26 @@ namespace Ex03.GarageLogic
         private const float k_MaxBatteryLifeInHours = 3.5f;
         private ElectricEngine m_Engine = new ElectricEngine(k_MaxBatteryLifeInHours);
 
-        //public ElectricTypeCar(ElectricTypeVehicleAttributes i_ElectricCar, eCarColor i_CarColor, int i_NumOfDoors, string i_ModelName, string i_LicensePlate, float i_EnergyLeftInTank, Tire[] i_Tires)
-        //: base(i_CarColor, i_NumOfDoors, i_ModelName, i_LicensePlate, i_EnergyLeftInTank, i_Tires)
-        //{
-        //    m_ElectricCar = i_ElectricCar;
-        //}
+        public override Dictionary<string, Type> GetParameters()
+        {
+            return new Dictionary<string, Type>
+            {
+                { "License Plate", typeof(string) },
+                { "Model Name", typeof(string) },
+                { "Car Color", typeof(eCarColor) },
+                { "Number Of Doors", typeof(int) },
+                { "Remaining Battery Hours Left", typeof(float) }
+            };
+        }
+
+        public override void Initialize(Dictionary<string, object> parameters)
+        {
+            m_LicensePlate = parameters["License Plate"] as string;
+            m_ModelName = parameters["Model Name"] as string;
+            m_CarColor = (eCarColor)parameters["Car Color"];
+            m_NumOfDoors = (int)parameters["Number Of Doors"];
+            m_Engine.RemainingBatteryHoursLeft = (float)parameters["Remaining Battery Hours Left"];
+        }
 
 
         ElectricEngine ElectricEngine

@@ -18,21 +18,21 @@ namespace Ex03.GarageLogic
         {
             return new Dictionary<string, Type>
             {
-                { "LicensePlate", typeof(string) },
-                { "ModelName", typeof(string) },
-                { "LicenseType", typeof(string) },
-                { "EngineCapacity", typeof(int) },
-                { "CurrentFuelTankCapacity", typeof(float) }
+                { "License Plate", typeof(string) },
+                { "Model Name", typeof(string) },
+                { "License Type", typeof(string) },
+                { "Engine Capacity", typeof(int) },
+                { "Current Fuel Tank Capacity", typeof(float) }
             };
         }
 
         public override void Initialize(Dictionary<string, object> parameters)
         {
-            m_LicensePlate = parameters["LicensePlate"] as string;
-            m_ModelName = parameters["ModelName"] as string;
-            m_LicenseType = (eLicenseType)parameters["LicenseType"];        //Add input tests
-            m_EngineCapacity = (int)parameters["EngineCapacity"];
-            m_Engine.CurrentFuelTankCapacity = (float)parameters["CurrentFuelTankCapacity"];
+            m_LicensePlate = parameters["License Plate"] as string;
+            m_ModelName = parameters["Model Name"] as string;
+            m_LicenseType = (eLicenseType)parameters["License Type"];        //Add input tests
+            m_EngineCapacity = (int)parameters["Engine Capacity"];
+            m_Engine.CurrentFuelTankCapacity = (float)parameters["Current Fuel Tank Capacity"];
         }
     }
 }

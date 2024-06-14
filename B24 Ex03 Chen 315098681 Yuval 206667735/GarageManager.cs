@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ex03.GarageLogic.vehicle;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,25 +15,25 @@ namespace Ex03.GarageLogic
         public const float k_CarMaxBatteryHoursLeft = 3.5f;
 
 
-        public Vehicle CreateVehicle(eVehicleType i_VehicleType)
+        public Vehicle CreateVehicle(VehicleFactory.eVehicleType i_VehicleType)
         {
             Vehicle vehicle;
 
             switch(i_VehicleType)
             {
-                case eVehicleType.ElectricCar:
+                case VehicleFactory.eVehicleType.ElectricCar:
                     vehicle = new ElectricTypeCar();
                     break;
-                case eVehicleType.FuelCar:
+                case VehicleFactory.eVehicleType.FuelCar:
                     vehicle = new FuelTypeCar();
                     break;
-                case eVehicleType.ElectricMotorcycle:
+                case VehicleFactory.eVehicleType.ElectricMotorcycle:
                     vehicle = new ElectricTypeMotorcycle();
                     break;
-                case eVehicleType.FuelMotorcycle:
+                case VehicleFactory.eVehicleType.FuelMotorcycle:
                     vehicle = new FuelTypeMotorcycle();
                     break;
-                case eVehicleType.Truck:
+                case VehicleFactory.eVehicleType.Truck:
                     vehicle = new Truck();
                     break;
                 default:
@@ -44,23 +45,23 @@ namespace Ex03.GarageLogic
             return vehicle;
         }
 
-        public void CreateNewVehicleInTheGarage(eVehicleType i_VehicleType, VehicleInGarage.Owner i_Owner)
+        public void CreateNewVehicleInTheGarage(VehicleFactory.eVehicleType i_VehicleType, VehicleInGarage.Owner i_Owner)
         {
             switch (i_VehicleType)
             {
-                case eVehicleType.ElectricCar:
+                case VehicleFactory.eVehicleType.ElectricCar:
                     //ElectricTypeCar Car = new ElectricTypeCar();
                     break;
 
             }
         }
 
-        public void CreateCar(eVehicleType i_VehicleType, Car.eCarColor i_CarColor, int i_NumOfDoors, string i_ModelName, string i_LicensePlate, float i_EnergyLeftInTank, Tire[] i_Tires)
+        public void CreateCar(VehicleFactory.eVehicleType i_VehicleType, Car.eCarColor i_CarColor, int i_NumOfDoors, string i_ModelName, string i_LicensePlate, float i_EnergyLeftInTank, Tire[] i_Tires)
         {
             float energyRemains = 0;
-            if (i_VehicleType == eVehicleType.ElectricCar)
+            if (i_VehicleType == VehicleFactory.eVehicleType.ElectricCar)
             {
-                energyRemains = generateCurrentEnergyLevel(eVehicleType.ElectricCar, i_EnergyLeftInTank);
+                energyRemains = generateCurrentEnergyLevel(VehicleFactory.eVehicleType.ElectricCar, i_EnergyLeftInTank);
                 //ElectricEngine electricCar = new ElectricTypeVehicleAttributes(k_CarMaxBatteryHoursLeft, energyRemains);
                 //ElectricTypeCar car = new ElectricTypeCar(electricCar, i_CarColor, i_NumOfDoors, i_ModelName, i_LicensePlate, i_EnergyLeftInTank, i_Tires);
             }
@@ -96,16 +97,16 @@ namespace Ex03.GarageLogic
         }
 
 
-        private float generateCurrentEnergyLevel(eVehicleType i_VehicleType, float i_EnergyLeftInTank)
+        private float generateCurrentEnergyLevel(VehicleFactory.eVehicleType i_VehicleType, float i_EnergyLeftInTank)
         {
             float energyLevel = 0;
             switch (i_VehicleType)
             {
-                case eVehicleType.ElectricCar:
+                case VehicleFactory.eVehicleType.ElectricCar:
                     energyLevel = k_CarMaxBatteryHoursLeft * i_EnergyLeftInTank / 100;
                     break;
 
-                case eVehicleType.FuelCar:
+                case VehicleFactory.eVehicleType.FuelCar:
                     break;
 
             }

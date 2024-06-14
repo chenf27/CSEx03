@@ -60,13 +60,37 @@ namespace Ex03.GarageLogic
 
         public class Owner
         {
-            private readonly string r_Name;
-            private readonly string r_Phone;
+            private string m_Name;
+            private string m_Phone;
 
-            public Owner(string i_Name, string i_Phone)
+            //public Owner(string i_Name, string i_Phone)
+            //{
+            //    r_Name = i_Name;
+            //    r_Phone = i_Phone;
+            //}
+
+            public string Name
             {
-                r_Name = i_Name;
-                r_Phone = i_Phone;
+                get
+                {
+                    return m_Name;
+                }
+                set
+                {
+                    m_Name = value;
+                }
+            }
+            
+            public string Phone
+            {
+                get
+                {
+                    return m_Phone;
+                }
+                set
+                {
+                    m_Phone = value;
+                }
             }
         }
     }
