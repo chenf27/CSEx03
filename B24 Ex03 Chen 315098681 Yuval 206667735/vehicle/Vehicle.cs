@@ -8,8 +8,8 @@ namespace Ex03.GarageLogic
 {
     public abstract class Vehicle
     {
-        protected readonly string r_ModelName;
-        protected readonly string r_LicensePlate;
+        protected string m_ModelName;
+        protected string m_LicensePlate;
         protected float m_EnergyLeftInTank;
         protected Tire[] m_Tires;
 
@@ -38,7 +38,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return r_ModelName;
+                return m_ModelName;
             }
         }
 
@@ -46,7 +46,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return r_LicensePlate;
+                return m_LicensePlate;
             }
         }
 
@@ -62,9 +62,8 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public virtual void InitiateVehicle()
-        {
+        public abstract Dictionary<string, Type> GetParameters();
 
-        }
+        public abstract void Initialize(Dictionary<string, object> parameters);
     }
 }

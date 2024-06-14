@@ -28,6 +28,11 @@ namespace Ex03.GarageLogic
         //    m_CurrentFuelTankCapacity = i_CurrentFuelTankCapacity;
         //}
 
+        public float CurrentFuelTankCapacity
+        {
+            get; set;
+        }
+
         public FuelEngine(eFuelType i_FuelType, float i_MaxFuelTankCapacity)
         {
             r_FuelType = i_FuelType;

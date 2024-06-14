@@ -1,11 +1,7 @@
 ﻿using Ex03.GarageLogic;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
-using System.Threading.Tasks;
-using static Ex03.GarageLogic.GarageManager;
+using static Ex03.GarageLogic.GarageManager; //TODO remove this when we fix the code and use exceptions
 
 namespace Ex03.ConsoleUI
 {
@@ -64,10 +60,11 @@ namespace Ex03.ConsoleUI
                 int.TryParse(Console.ReadLine(), out int userVehicleTypeChoice);    
                 vehicleType = getVehicleType(userVehicleTypeChoice);
                 vehicle = m_GarageManager.CreateVehicle(vehicleType);
-                
 
-                
 
+                Dictionary<string, string> map = vehicle.GetInitiationParameters();
+
+                vehicle.InitiateVehicle(map);
             }
 
         }

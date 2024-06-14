@@ -14,7 +14,6 @@ namespace Ex03.GarageLogic
         public const float k_CarMaxBatteryHoursLeft = 3.5f;
 
 
-
         public Vehicle CreateVehicle(eVehicleType i_VehicleType)
         {
             Vehicle vehicle;
@@ -128,15 +127,5 @@ namespace Ex03.GarageLogic
 
             return licensePlates;
         }
-
-        public enum eVehicleType
-        {
-            ElectricCar,
-            FuelCar,
-            ElectricMotorcycle,
-            FuelMotorcycle,
-            Truck
-        }
-
     }
 }
