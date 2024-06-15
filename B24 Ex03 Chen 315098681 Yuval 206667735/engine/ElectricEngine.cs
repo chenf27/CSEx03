@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ex03.GarageLogic.engine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
-    public class ElectricEngine
+    internal class ElectricEngine : Engine
     {
         private readonly float r_MaxBatteryHoursLeft;
         private float m_RemainingBatteryHoursLeft;
@@ -18,10 +19,6 @@ namespace Ex03.GarageLogic
         }
         
 
-        public void CharceVechile(float i_HoursToCharge)
-        {
-            
-        }
         public float MaxBatteryHoursLeft
         {
             get
@@ -39,11 +36,30 @@ namespace Ex03.GarageLogic
 
             set
             {
+                if (value < 0 || value > r_MaxBatteryHoursLeft)
+                {
+                    throw new ValueOutOfRangeException(0, r_MaxBatteryHoursLeft);
+                }
                 m_RemainingBatteryHoursLeft = value;
+                m_EnergyLeftInTank = (m_RemainingBatteryHoursLeft / r_MaxBatteryHoursLeft) * 100;
             }
         }
 
-        public void Charging(float i_HoursToCharge)
+        public override void RefuelOrRecharge(Dictionary<string, object> i_Parameters)
+        {
+            float hoursToCharge;
+
+            if (!i_Parameters.ContainsKey("Hours To Charge"))
+            {
+                throw new ArgumentException("Missing parameter for recharging.");
+            }
+
+            hoursToCharge = (float)i_Parameters["HoursToCharge"];
+            RemainingBatteryHoursLeft += hoursToCharge;
+        }
+
+
+        /*public void Charging(float i_HoursToCharge)
         {
             if (i_HoursToCharge < 0)
             {
@@ -58,7 +74,11 @@ namespace Ex03.GarageLogic
                 m_RemainingBatteryHoursLeft += i_HoursToCharge;
             }
 
-        }
+        }*/
 
+        /*public void CharceVechile(float i_HoursToCharge)
+        {
+            
+        }*/
     }
 }

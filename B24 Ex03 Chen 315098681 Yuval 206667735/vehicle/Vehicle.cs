@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ex03.GarageLogic.engine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,29 +9,16 @@ namespace Ex03.GarageLogic
 {
     public abstract class Vehicle
     {
-        protected string m_ModelName;
         protected string m_LicensePlate;
-        protected float m_EnergyLeftInTank;
+        protected string m_ModelName;
         protected Tire[] m_Tires;
-
-
-        //public Vehicle(string i_ModelName, string i_LicensePlate, float i_EnergyLeftInTank, Tire[] i_Tires)
-        //{
-        //    r_ModelName = i_ModelName;
-        //    r_LicensePlate = i_LicensePlate;
-        //    EnergyLeftInTank = i_EnergyLeftInTank;
-        //    m_Tires = i_Tires;
-        //}
+        protected Engine m_Engine;
 
         public float EnergyLeftInTank
         {
             get
             {
-                return m_EnergyLeftInTank;
-            }
-            set
-            {
-                m_EnergyLeftInTank = value;
+                return m_Engine.EnergyLeftInTank;
             }
         }
 
@@ -62,8 +50,60 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public abstract Dictionary<string, Type> GetParameters();
+        public Engine Engine
+        {
+            get
+            {
+                return m_Engine;
+            }
+        }
 
-        public abstract void Initialize(Dictionary<string, object> parameters);
+        public virtual Dictionary<string, Type> GetParameters()
+        {
+            return new Dictionary<string, Type>
+            {
+                { "License Plate", typeof(string) },
+                { "Model Name", typeof(string) }
+            };
+        }
+
+        public virtual void Initialize(Dictionary<string, object> i_Parameters)
+        {
+            try
+            {
+                string licensePlate = i_Parameters["License Plate"] as string;
+                string modelName = i_Parameters["Model Name"] as string;
+
+                ValidateCommonParameters(licensePlate, modelName);
+
+                m_LicensePlate = licensePlate;
+                m_ModelName = modelName;
+
+                InitializeUniqueParameters(i_Parameters);
+            }
+            catch (InvalidCastException ex)
+            {
+                throw new FormatException("Parameter type mismatch.", ex);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                throw new ArgumentException("Missing parameter in the initialization dictionary.", ex);
+            }
+        }
+
+        protected abstract void InitializeUniqueParameters(Dictionary<string, object> i_Parameters);
+
+        protected void ValidateCommonParameters(string licensePlate, string modelName)
+        {
+            if (string.IsNullOrWhiteSpace(licensePlate) || string.IsNullOrWhiteSpace(modelName))
+            {
+                throw new ArgumentException("License Plate and Model Name cannot be null or empty.");
+            }
+        }
+
+        public void RefuelOrRecharge(Dictionary<string, object> i_Parameters)
+        {
+            m_Engine.RefuelOrRecharge(i_Parameters);
+        }
     }
 }

@@ -9,31 +9,28 @@ namespace Ex03.GarageLogic
     public class ElectricTypeCar : Car
     {
         private const float k_MaxBatteryLifeInHours = 3.5f;
-        private ElectricEngine m_Engine = new ElectricEngine(k_MaxBatteryLifeInHours);
+
+        internal ElectricTypeCar()
+        {
+            m_Engine = new ElectricEngine(k_MaxBatteryLifeInHours);
+        }
 
         public override Dictionary<string, Type> GetParameters()
         {
-            return new Dictionary<string, Type>
-            {
-                { "License Plate", typeof(string) },
-                { "Model Name", typeof(string) },
-                { "Car Color", typeof(eCarColor) },
-                { "Number Of Doors", typeof(int) },
-                { "Remaining Battery Hours Left", typeof(float) }
-            };
+            Dictionary<string, Type> parameters = base.GetParameters();
+            parameters.Add("Remaining Battery Hours Left", typeof(float));
+            return parameters;
         }
 
-        public override void Initialize(Dictionary<string, object> parameters)
+        protected override void InitializeCarSpecificParameters(Dictionary<string, object> i_Parameters)
         {
-            m_LicensePlate = parameters["License Plate"] as string;
-            m_ModelName = parameters["Model Name"] as string;
-            m_CarColor = (eCarColor)parameters["Car Color"];
-            m_NumOfDoors = (int)parameters["Number Of Doors"];
-            m_Engine.RemainingBatteryHoursLeft = (float)parameters["Remaining Battery Hours Left"];
+            float remainingBatteryHoursLeft = (float)i_Parameters["Remaining Battery Hours Left"];
+            
+            ((ElectricEngine)m_Engine).RemainingBatteryHoursLeft = remainingBatteryHoursLeft;
         }
 
 
-        ElectricEngine ElectricEngine
+        /*ElectricEngine ElectricEngine
         {
             get 
             {
@@ -43,7 +40,7 @@ namespace Ex03.GarageLogic
             {
                 m_Engine = value;
             }
-        }
+        }*/     // Do we need this?
 
     }
 }

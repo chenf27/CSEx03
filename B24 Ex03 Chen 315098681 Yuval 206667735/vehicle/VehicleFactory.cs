@@ -5,6 +5,8 @@ namespace Ex03.GarageLogic.vehicle
 {
     public class VehicleFactory
     {
+        private readonly Dictionary<eVehicleType, Type> r_VehicleTypes;
+        
         public enum eVehicleType
         {
             ElectricCar,
@@ -13,8 +15,6 @@ namespace Ex03.GarageLogic.vehicle
             FuelMotorcycle,
             Truck
         }
-
-        private readonly Dictionary<eVehicleType, Type> r_VehicleTypes;
 
         public VehicleFactory()
         {
@@ -28,7 +28,7 @@ namespace Ex03.GarageLogic.vehicle
             };
         }
 
-        public Vehicle CreateVehicle(eVehicleType i_VehicleType)
+        private Vehicle createVehicle(eVehicleType i_VehicleType) 
         {
             if (r_VehicleTypes.TryGetValue(i_VehicleType, out Type VehicleType))
             {
@@ -39,7 +39,9 @@ namespace Ex03.GarageLogic.vehicle
 
         public Dictionary<string, Type> InitializeVehicle(eVehicleType i_VehicleType)
         {
-            Vehicle vehicle = CreateVehicle(i_VehicleType);
+            // TODO need to switch to string instead of eVehicleType in parameter type? and do the parsing inside
+            //      also check if we need to return car to UI or not
+            Vehicle vehicle = createVehicle(i_VehicleType);
             return vehicle.GetParameters();
         }
 

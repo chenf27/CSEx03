@@ -12,27 +12,24 @@ namespace Ex03.GarageLogic
     {
         private const FuelEngine.eFuelType k_FuelType = FuelEngine.eFuelType.Octan98;
         private const float k_MaxFuelTankCapacity = 5.5f;
-        private FuelEngine m_Engine = new FuelEngine(k_FuelType, k_MaxFuelTankCapacity);
+
+        internal FuelTypeMotorcycle()
+        {
+            base.m_Engine = new FuelEngine(k_FuelType, k_MaxFuelTankCapacity);
+        }
 
         public override Dictionary<string, Type> GetParameters()
         {
-            return new Dictionary<string, Type>
-            {
-                { "License Plate", typeof(string) },
-                { "Model Name", typeof(string) },
-                { "License Type", typeof(string) },
-                { "Engine Capacity", typeof(int) },
-                { "Current Fuel Tank Capacity", typeof(float) }
-            };
+            Dictionary<string, Type> parameters = base.GetParameters();
+            parameters.Add("Current Amount of Fuel In Tank", typeof(float));
+            return parameters;
         }
 
-        public override void Initialize(Dictionary<string, object> parameters)
+        protected override void InitializeMotorcycleSpecificParameters(Dictionary<string, object> i_Parameters)
         {
-            m_LicensePlate = parameters["License Plate"] as string;
-            m_ModelName = parameters["Model Name"] as string;
-            m_LicenseType = (eLicenseType)parameters["License Type"];        //Add input tests
-            m_EngineCapacity = (int)parameters["Engine Capacity"];
-            m_Engine.CurrentFuelTankCapacity = (float)parameters["Current Fuel Tank Capacity"];
+            float currentFuelTankCapacity = (float)i_Parameters["Current Amount of Fuel In Tank"];
+
+            ((FuelEngine)m_Engine).CurrentAmountOfFuelInTank = currentFuelTankCapacity;
         }
     }
 }

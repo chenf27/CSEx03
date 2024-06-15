@@ -11,10 +11,10 @@ namespace Ex03.ConsoleUI
     {
         public static void Main()
         {
-            Vehicle v = new Truck();
+            /*Vehicle v = new Truck();
             Truck t = v as Truck;
 
-            t.EnergyLeftInTank = 50;
+            t.EnergyLeftInTank = 50;*/
         }
     }
 }

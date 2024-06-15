@@ -39,8 +39,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ElectricEngine.cs" />
-    <Compile Include="FuelEngine.cs" />
+    <Compile Include="engine\ElectricEngine.cs" />
+    <Compile Include="engine\Engine.cs" />
+    <Compile Include="engine\FuelEngine.cs" />
     <Compile Include="ValueOutOfRangeException.cs" />
     <Compile Include="vehicle\Car.cs" />
     <Compile Include="vehicle\ElectricTypeCar.cs" />

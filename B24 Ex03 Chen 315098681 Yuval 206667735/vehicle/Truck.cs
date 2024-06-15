@@ -15,9 +15,11 @@ namespace Ex03.GarageLogic
         private const int k_NumOfTires = 12;
         private const FuelEngine.eFuelType k_FuelType = FuelEngine.eFuelType.Soler;
         private const float k_MaxFuelTankCapacity = 120;
-        private FuelEngine m_Engine = new FuelEngine(k_FuelType, k_MaxFuelTankCapacity);
 
-        
+        internal Truck()
+        {
+            base.m_Engine = new FuelEngine(k_FuelType, k_MaxFuelTankCapacity);
+        }
 
         public float CargoVolume
         {
@@ -41,25 +43,27 @@ namespace Ex03.GarageLogic
 
         public override Dictionary<string, Type> GetParameters()
         {
-            return new Dictionary<string, Type>
-            {
-                { "License Plate", typeof(string) },
-                { "Model Name", typeof(string) },
-                { "Energy Left In Tank", typeof(float) },
-                { "Contains Hazardous Materials", typeof(bool) },
-                { "Cargo Volume", typeof(float) },
-                { "Current Fuel Tank Capacity", typeof(float) }
-            };
+            Dictionary<string, Type> parameters = base.GetParameters();
+            parameters.Add("Contains Hazardous Materials", typeof(bool));
+            parameters.Add("Cargo Volume", typeof(float));
+            parameters.Add("Current Amount of Fuel In Tank", typeof(float));
+            return parameters;
         }
 
-        public override void Initialize(Dictionary<string, object> parameters)
+        protected override void InitializeUniqueParameters(Dictionary<string, object> i_Parameters)
         {
-            m_LicensePlate = parameters["License Plate"] as string;
-            m_ModelName = parameters["Model Name"] as string;
-            m_EnergyLeftInTank = (float)parameters["Energy Left In Tank"];
-            m_ContainsHazardousMaterials = (bool)parameters["Contains Hazardous Materials"];
-            m_CargoVolume = (float)parameters["Cargo Volume"];
-            m_Engine.CurrentFuelTankCapacity = (float)parameters["Current Fuel Tank Capacity"];
+            m_ContainsHazardousMaterials = (bool)i_Parameters["Contains Hazardous Materials"];
+            float cargoVolume = (float)i_Parameters["Cargo Volume"];
+            float currentAmountOfFuelInTank = (float)i_Parameters["Current Amount of Fuel In Tank"];
+
+            if (cargoVolume < 0)
+            {
+                throw new ValueOutOfRangeException(0, int.MaxValue);
+            }
+
+            m_CargoVolume = cargoVolume;
+            ((FuelEngine)m_Engine).CurrentAmountOfFuelInTank = currentAmountOfFuelInTank;
         }
     }
 }
+

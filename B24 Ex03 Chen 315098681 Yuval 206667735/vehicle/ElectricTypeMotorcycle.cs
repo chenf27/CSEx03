@@ -9,27 +9,24 @@ namespace Ex03.GarageLogic
     public class ElectricTypeMotorcycle : Motorcycle
     {
         private const float k_MaxBatteryLifeInHours = 2.5f;
-        private ElectricEngine m_Engine = new ElectricEngine(k_MaxBatteryLifeInHours);
+
+        internal ElectricTypeMotorcycle()
+        {
+            base.m_Engine = new ElectricEngine(k_MaxBatteryLifeInHours);
+        }
 
         public override Dictionary<string, Type> GetParameters()
         {
-            return new Dictionary<string, Type>
-            {
-                { "License Plate", typeof(string) },
-                { "Model Name", typeof(string) },
-                { "License Type", typeof(string) },
-                { "Engine Capacity", typeof(int) },
-                { "Remaining Battery Hours Left", typeof(float) }
-            };
+            Dictionary<string, Type> parameters = base.GetParameters();
+            parameters.Add("Remaining Battery Hours Left", typeof(float));
+            return parameters;
         }
 
-        public override void Initialize(Dictionary<string, object> parameters)
+        protected override void InitializeMotorcycleSpecificParameters(Dictionary<string, object> i_Parameters)
         {
-            m_LicensePlate = parameters["License Plate"] as string;
-            m_ModelName = parameters["Model Name"] as string;
-            m_LicenseType = (eLicenseType)parameters["License Type"];        //Add input tests
-            m_EngineCapacity = (int)parameters["Engine Capacity"];
-            m_Engine.RemainingBatteryHoursLeft = (float)parameters["Remaining Battery Hours Left"];
+            float remainingBatteryHoursLeft = (float)i_Parameters["Remaining Battery Hours Left"];
+
+            ((ElectricEngine)m_Engine).RemainingBatteryHoursLeft = remainingBatteryHoursLeft;
         }
     }
 }
