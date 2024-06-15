@@ -29,6 +29,22 @@ namespace Ex03.GarageLogic
             B1
         }
 
+        public int EngineCapacity
+        {
+            get
+            {
+                return m_EngineCapacity;
+            }
+        }
+
+        public eLicenseType LicenseType
+        {
+            get
+            {
+                return m_LicenseType;
+            }
+        }
+
         public override Dictionary<string, Type> GetParameters()
         {
             Dictionary<string, Type> parameters = base.GetParameters();
@@ -57,22 +73,6 @@ namespace Ex03.GarageLogic
             if (!i_licenseParsedSuccessfully)
             {
                 throw new ArgumentException("License Type must be one of these values: A, A1, AA, B1");
-            }
-        }
-
-        public int EngineCapacity
-        {
-            get
-            {
-                return m_EngineCapacity;
-            }
-        }
-
-        public eLicenseType LicenseType
-        {
-            get
-            {
-                return m_LicenseType;
             }
         }
     }

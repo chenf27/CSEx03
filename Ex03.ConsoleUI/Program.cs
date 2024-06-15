@@ -11,10 +11,25 @@ namespace Ex03.ConsoleUI
     {
         public static void Main()
         {
-            /*Vehicle v = new Truck();
-            Truck t = v as Truck;
+            Run();
+        }
 
-            t.EnergyLeftInTank = 50;*/
+        public static void Run() 
+        {
+            UIManager uiManager = new UIManager();
+
+            while (true)
+            {
+                try
+                {
+                    uiManager.PrintMenuAndGetChoice();
+                    // continue here
+                }
+                catch // need to think about that 
+                {
+
+                }
+            }
         }
     }
 }

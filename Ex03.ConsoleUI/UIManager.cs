@@ -42,9 +42,9 @@ namespace Ex03.ConsoleUI
             string licensePlate;
             //VehicleFactory.eVehicleType vehicleType;
             VehicleFactory vehicleFactory = new VehicleFactory();
+            VehicleFactory.eVehicleType vehicleType;
             Vehicle vehicle;
 
-            vehicle = vehicleFactory.
             Console.WriteLine("Please enter the license plate of the vehicle");
             licensePlate = Console.ReadLine();
             if(m_GarageManager.AlreadyInGarage(licensePlate))
@@ -57,7 +57,20 @@ namespace Ex03.ConsoleUI
                 // TODO: rewrite code according to the new structure - need to use Factory and its method GetParameters(), then print the parameters and get input.
                 //       No need to check anythig about the input here, all the checks are inside the engine (it's fucking stupid but that's what he wants.
                 //       We will wrap this entire block of code in a loop and a try block
-                
+                int supportedVehicleTypesIndex = 1;
+                VehicleFactory.eVehicleType[] supportedVehicleTypes = vehicleFactory.GetSupportedVehicleTypes();
+                Console.WriteLine("Please enter the type of your vehicle:");
+                foreach(VehicleFactory.eVehicleType supportedVehicleType in supportedVehicleTypes)
+                {
+                    Console.WriteLine("{0}. {1}", supportedVehicleTypesIndex, supportedVehicleTypes[supportedVehicleTypesIndex]);
+                }
+
+                int.TryParse(Console.ReadLine(), out int userVehicleTypeChoice);
+                vehicleType = vehicleFactory.ParseUserChoice(userVehicleTypeChoice);
+                vehicle = vehicleFactory.InitializeVehicle(vehicleType);
+                Dictionary<string, Type> vehicleParameters = vehicle.GetParameters();
+
+
                 /*Console.WriteLine(@"Please enter the type of your vehicle:
 1 - Electric car
 2 - Fuel car
@@ -73,6 +86,9 @@ namespace Ex03.ConsoleUI
                 // Dictionary<string, string> map = vehicle.GetInitiationParameters();
 
                 //vehicle.Initialize(map);
+
+
+                // TODO example to how it should look
             }
 
         }
@@ -188,34 +204,6 @@ namespace Ex03.ConsoleUI
             return licenseType;
         }
 
-
-        private VehicleFactory.eVehicleType getVehicleType(int i_UserVehicleType)
-        {
-            //TMP
-            VehicleFactory.eVehicleType vehicleType = VehicleFactory.eVehicleType.ElectricCar;
-            switch (i_UserVehicleType)
-            {
-                case 1:
-                    vehicleType = VehicleFactory.eVehicleType.ElectricCar;
-                    break;
-                case 2:
-                    vehicleType = VehicleFactory.eVehicleType.FuelCar;
-                    break;
-                case 3:
-                    vehicleType = VehicleFactory.eVehicleType.ElectricMotorcycle;
-                    break;
-                case 4:
-                    vehicleType = VehicleFactory.eVehicleType.FuelMotorcycle;
-                    break;
-                case 5:
-                    vehicleType = VehicleFactory.eVehicleType.Truck;
-                    break;
-                default:
-                    //TODO  EXDPTION
-                    break;
-            }
-            return vehicleType;
-        }
 
         private void getVehicleDetailsAndInitiate(VehicleFactory.eVehicleType i_VehicleType, Vehicle io_Vehicle, string i_LicensePlate)
         {
