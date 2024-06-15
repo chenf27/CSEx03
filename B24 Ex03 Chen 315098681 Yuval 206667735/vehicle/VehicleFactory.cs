@@ -63,18 +63,18 @@ namespace Ex03.GarageLogic.vehicle
             return newVehicle;
         }
 
-        public Vehicle InitializeVehicle(eVehicleType i_VehicleType)
+        public Vehicle InitializeVehicle(int i_UserChoiceVehicleType)
         {
-            // TODO need to switch to string instead of eVehicleType in parameter type? and do the parsing inside
-            //      also check if we need to return car to UI or not
-            Vehicle vehicle = createVehicle(i_VehicleType); // This method assumes input is valid, need to check it before calling the method
+            eVehicleType vehicleType = parseUserChoice(i_UserChoiceVehicleType);
+            Vehicle vehicle = createVehicle(vehicleType); 
 
             // TODO: put the new vehicle inside a VehicleInGarage object and send it to GarageManager
+            //       check if we need to return car to UI or not
 
             return vehicle;
         }
 
-        public eVehicleType ParseUserChoice(int i_UserChoice)
+        private eVehicleType parseUserChoice(int i_UserChoice)
         {
             eVehicleType vehicleType;
 

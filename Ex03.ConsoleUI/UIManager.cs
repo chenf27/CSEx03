@@ -42,7 +42,6 @@ namespace Ex03.ConsoleUI
             string licensePlate;
             //VehicleFactory.eVehicleType vehicleType;
             VehicleFactory vehicleFactory = new VehicleFactory();
-            VehicleFactory.eVehicleType vehicleType;
             Vehicle vehicle;
 
             Console.WriteLine("Please enter the license plate of the vehicle");
@@ -65,11 +64,23 @@ namespace Ex03.ConsoleUI
                     Console.WriteLine("{0}. {1}", supportedVehicleTypesIndex, supportedVehicleTypes[supportedVehicleTypesIndex]);
                 }
 
-                int.TryParse(Console.ReadLine(), out int userVehicleTypeChoice);
-                vehicleType = vehicleFactory.ParseUserChoice(userVehicleTypeChoice);
-                vehicle = vehicleFactory.InitializeVehicle(vehicleType);
+                bool userChoiceIsInt = int.TryParse(Console.ReadLine(), out int userVehicleTypeChoice);
+                if (!userChoiceIsInt)
+                {
+                    // throw exception
+                    // ugly, this is temporary. you can change that as you like
+                }
+                
+                vehicle = vehicleFactory.InitializeVehicle(userVehicleTypeChoice);
                 Dictionary<string, Type> vehicleParameters = vehicle.GetParameters();
+                // create new Dictionary<string, object> (for example call it initializedVehicleParameters.
+                // foreach key in parameters ask user for input, then put it in the new dictionary like this:
+                // initializedVehicleParameters[key] = userInput
+                // all the verifications happen in the engine (or at lease they should)
+                // then call the vehicle.Initialize() method with the new dictionary you created
 
+
+                // ---------------------------------------PREVIOUS CODE---------------------------------------:
 
                 /*Console.WriteLine(@"Please enter the type of your vehicle:
 1 - Electric car
@@ -80,15 +91,6 @@ namespace Ex03.ConsoleUI
                 int.TryParse(Console.ReadLine(), out int userVehicleTypeChoice);
                 vehicleType = getVehicleType(userVehicleTypeChoice);
                 vehicle = m_GarageManager.CreateVehicle(vehicleType);*/
-
-
-
-                // Dictionary<string, string> map = vehicle.GetInitiationParameters();
-
-                //vehicle.Initialize(map);
-
-
-                // TODO example to how it should look
             }
 
         }
