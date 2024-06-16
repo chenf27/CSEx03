@@ -15,15 +15,10 @@ namespace Ex03.GarageLogic
         public const float k_MaxAirPressure = 33;
         public const int k_NumOfTires = 2;
 
-        //public Motorcycle(eLicenseType i_LicenseType, int i_EngineCapacity, string i_ModelName, string i_LicensePlate, float i_EnergyLeftInTank, Tire[] i_Tires)
-        //:base(i_ModelName, i_LicensePlate, i_EnergyLeftInTank, i_Tires)
-        //{
-        //    e_LicenseType = i_LicenseType;
-        //    r_EngineCapacity = i_EngineCapacity;
-        //}
+        
         public enum eLicenseType
         {
-            A,
+            A = 1,
             A1,
             AA,
             B1
@@ -48,15 +43,27 @@ namespace Ex03.GarageLogic
         public override Dictionary<string, Type> GetParameters()
         {
             Dictionary<string, Type> parameters = base.GetParameters();
-            parameters.Add("License Type", typeof(string));
+
+            parameters.Add("License Type", typeof(eLicenseType));
             parameters.Add("Engine Capacity", typeof(int));
+            return parameters;
+        }
+
+        public override Dictionary<string, string> GetFilledParameters()
+        {
+            Dictionary<string, string> parameters = base.GetFilledParameters();
+
+            parameters.Add("License Type", m_LicenseType.ToString());
+            parameters.Add("Engine Capacity", m_EngineCapacity.ToString());
             return parameters;
         }
 
         protected override void InitializeUniqueParameters(Dictionary<string, object> i_Parameters)
         {
             bool licenseParsedSuccessfully = Enum.TryParse((string)i_Parameters["License Type"], out eLicenseType licenseType);
-            int engineCapacity = (int)i_Parameters["Engine Capacity"];
+            // int engineCapacity = (int)i_Parameters["Engine Capacity"];
+
+            int.TryParse(((string)i_Parameters["Engine Capacity"]), out int engineCapacity);
 
             ValidateMotorcycleParameters(licenseParsedSuccessfully);
 

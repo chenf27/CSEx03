@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
-    internal class ElectricEngine : Engine
+    public class ElectricEngine : Engine
     {
         private readonly float r_MaxBatteryHoursLeft;
         private float m_RemainingBatteryHoursLeft;
@@ -54,7 +54,7 @@ namespace Ex03.GarageLogic
                 throw new ArgumentException("Missing parameter for recharging.");
             }
 
-            hoursToCharge = (float)i_Parameters["HoursToCharge"];
+            hoursToCharge = (float)i_Parameters["Hours To Charge"];
             RemainingBatteryHoursLeft += hoursToCharge;
         }
 

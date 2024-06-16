@@ -37,6 +37,114 @@ namespace Ex03.ConsoleUI
             return usersChoice;
         }
 
+        public void PuttingCarToGarage()
+        {
+            string licensePlate;
+            VehicleFactory vehicleFactory = new VehicleFactory();
+            Vehicle vehicle;
+            int userSelectedVehicle;
+            Dictionary<string, Object> parameters;
+            VehicleInGarage.Owner owner;
+
+            Console.WriteLine("Please enter the license plate of the vehicle");
+            licensePlate = Console.ReadLine();
+            if (m_GarageManager.AlreadyInGarage(licensePlate))
+            {
+                Console.WriteLine("HOLA! The vehicle is already in our garage");
+                m_GarageManager.SetVehicleInGarageStatus(licensePlate, VehicleInGarage.eStatus.UnderRepair);
+            }
+            else
+            {
+                userSelectedVehicle = getVehicleType(vehicleFactory);
+               // userSelectedVehicle = m_GarageManager.GetEnumSelection(vehicleFactory.GetType());
+                vehicle =  vehicleFactory.InitializeVehicle(userSelectedVehicle);
+                //TODO InitializeVehicle change name
+                parameters = getVehicleParameters(vehicle);
+                vehicle.Initialize(parameters);
+                owner = SetOwnerDetails();
+                m_GarageManager.EnterVehicleToGarage(vehicle, owner);
+            }
+        }
+
+        private int getVehicleType(VehicleFactory i_VehicleFactory)
+        {
+            VehicleFactory.eVehicleType[] supportedVehicles;
+            int counter = 1, userSelectedVehicle;
+
+            Console.WriteLine("Please select yout vehicle type:");
+            supportedVehicles = i_VehicleFactory.GetSupportedVehicleTypes();
+            foreach (var supportedVehicleType in supportedVehicles)
+            {
+                Console.WriteLine(counter + " - {0}", supportedVehicleType);
+                counter++;
+            }
+            int.TryParse(Console.ReadLine(), out userSelectedVehicle);
+            //TODO GOOD VEHICLE TYPE?
+
+            return userSelectedVehicle;
+        }
+
+        private Dictionary<string, Object> getVehicleParameters(Vehicle i_Vehicle)
+        {
+            Dictionary<string, Type> keyValuePairs;
+            Dictionary<string, Object> parameters = new Dictionary<string, Object>();
+            bool choice;
+
+            keyValuePairs = i_Vehicle.GetParameters();
+            Console.WriteLine("Please enter the following parameters:");
+            foreach (KeyValuePair<string, Type> item in keyValuePairs)
+            {
+                Console.WriteLine(item.Key);
+                if (item.Value.IsEnum)
+                {
+                    parameters[item.Key] = getEnumSelection(item.Value);
+                }
+                else if(item.Value == typeof(bool))
+                {
+                    //TODO NEED THINKING
+                    Console.WriteLine("1 - Yes");
+                    Console.WriteLine("2 - No");
+                    parameters[item.Key] = true;
+                }
+                else
+                {
+                    parameters[item.Key] = Console.ReadLine();
+                }
+            }
+
+            return parameters;
+        }
+
+        public void GetVehicleDetailsByLicensePlate()
+        {
+            string licensePlate;
+            Dictionary<string, string> parameters;
+            VehicleInGarage vehicleInGarage;
+
+            Console.WriteLine("Please enter your license Plate:");
+            licensePlate = Console.ReadLine();
+
+            if(m_GarageManager.AlreadyInGarage(licensePlate))
+            {
+                vehicleInGarage = m_GarageManager.VehiclesByLicensePlate[licensePlate];
+                parameters = vehicleInGarage.Vehicle.GetFilledParameters();
+
+                foreach(KeyValuePair<string, string> item in parameters)
+                {
+                    Console.WriteLine(item.Key);
+                    Console.WriteLine(item.Value);
+                }
+
+                Console.WriteLine(@"Owner name
+{0}
+Owner cellphone number
+{1}
+Vehicle status
+{3}", vehicleInGarage.OwnerDetails.Name, vehicleInGarage.OwnerDetails.Phone, vehicleInGarage.VehicleStatus);
+            }
+        }
+
+        //PREVIOUS FUNCTION
         public void AddVehicle()
         {
             string licensePlate;
@@ -108,12 +216,23 @@ namespace Ex03.ConsoleUI
 4 - All vehicles");
             int.TryParse(Console.ReadLine(), out choice);
             //TODO KELET
-            status = convertStatus(choice);
-            vehiclesStatus = m_GarageManager.GetLicensePlatesByStatus(status);
-
-            foreach(string vehicles in vehiclesStatus) 
-            { 
-                Console.WriteLine(vehicles); 
+            Console.WriteLine("Vehicles license plates:");
+            if (choice == 4)
+            {
+                foreach (KeyValuePair<string, VehicleInGarage> vehicleInGarage in m_GarageManager.VehiclesByLicensePlate)
+                {
+                    Console.WriteLine(vehicleInGarage.Key);
+                }
+            }
+            else
+            {
+                //TODO GENERY getEnumSelection
+                status = convertStatus(choice);
+                vehiclesStatus = m_GarageManager.GetLicensePlatesByStatus(status);
+                foreach (string vehicles in vehiclesStatus)
+                {
+                    Console.WriteLine(vehicles);
+                }
             }
         }
 
@@ -136,6 +255,8 @@ namespace Ex03.ConsoleUI
 
         }
 
+
+        //TODO
         public void InflatingTireToMax()
         {
             string licensePlate;
@@ -206,66 +327,7 @@ namespace Ex03.ConsoleUI
             return licenseType;
         }
 
-
-        private void getVehicleDetailsAndInitiate(VehicleFactory.eVehicleType i_VehicleType, Vehicle io_Vehicle, string i_LicensePlate)
-        {
-            string modelName;
-            int numOfDoors;
-            float percentOfEnergyLeftInTank;
-            float airTirePressure;
-            Car.eCarColor carColor;
-            Motorcycle.eLicenseType licenseType;
-
-            Console.WriteLine("Please enter the model name:");
-            modelName = Console.ReadLine();
-            Console.WriteLine("Please enter the percent of power left in your engine:");
-            float.TryParse(Console.ReadLine(), out percentOfEnergyLeftInTank);
-            Console.WriteLine("Please enter your current tire air pressure");
-            float.TryParse(Console.ReadLine(), out airTirePressure);
-
-            if(io_Vehicle is Car)
-            {
-                Console.WriteLine(@"What is your car's color?
-1 - Yellow
-2 - White
-3 - Red
-4 - Black");
-                carColor = convertCarColor(int.Parse(Console.ReadLine()));
-                Console.WriteLine("How many doors do you have in your car?");
-                int.TryParse(Console.ReadLine(), out numOfDoors);
-            }
-            if(io_Vehicle is Truck)
-            {
-                Console.WriteLine(@"Does your truck contains hazardous materials?
-1 - Yes
-2 - No");
-                bool.TryParse(Console.ReadLine(), out bool containsHazardousMaterials);
-                
-            }
-            if (io_Vehicle is Motorcycle)
-            {
-                Console.WriteLine(@"What is your motorcycle's license type?
-1 - A
-2 - A1
-3 - AA
-4 - B1");
-                licenseType = convertMotorCycleLicenseType(int.Parse(Console.ReadLine()));
-                Console.WriteLine("What is your engine capacity?");
-                int.TryParse(Console.ReadLine(), out int engineCapacity);
-            }
-
-            if (io_Vehicle is ElectricTypeCar || io_Vehicle is ElectricTypeMotorcycle)
-            {
-                Console.WriteLine();
-            }
-            else
-            {
-            }
-
-
-        }
-
-        public VehicleInGarage.Owner GetOwnerDetails()
+        public VehicleInGarage.Owner SetOwnerDetails()
         {
             VehicleInGarage.Owner owner = new VehicleInGarage.Owner();
 
@@ -275,6 +337,75 @@ namespace Ex03.ConsoleUI
             owner.Phone = Console.ReadLine();
 
             return owner;
+        }
+
+        public void ChargeOrFuelVehicle(int i_RequestNumber)
+        {
+            Dictionary<string, object> parameters;
+            Vehicle vehicle;
+            string licensePlate;
+
+            Console.WriteLine("Please enter the Vehicle License Plate");
+            licensePlate = Console.ReadLine();
+            if(m_GarageManager.AlreadyInGarage(licensePlate))
+            {
+                if (i_RequestNumber == 5)
+                {
+                    parameters = reFuelVehicle();
+                }
+                else
+                {
+                    parameters = chargeElectricVehicle();
+                }
+
+                vehicle = m_GarageManager.VehiclesByLicensePlate[licensePlate].Vehicle;
+                vehicle.Engine.RefuelOrRecharge(parameters);
+            }
+            //TODO ADD ELSE
+        }
+
+        private Dictionary<string, object> chargeElectricVehicle()
+        {
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+
+            Console.WriteLine("Please enter how many hours to charge");
+            float.TryParse(Console.ReadLine(), out float amountToChargeOrFuel);
+            parameters["Hours To Charge"] = amountToChargeOrFuel;
+
+            return parameters;
+        }
+
+        private Dictionary<string, object> reFuelVehicle()
+        {
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            string fuelType;
+
+            Console.WriteLine("Please enter how many liters to refuel");
+            float.TryParse(Console.ReadLine(), out float amountToFuel);
+            parameters["Liters To Add"] = amountToFuel;
+            Console.WriteLine("Please enter your fuel type");
+            fuelType = getEnumSelection(typeof(FuelEngine.eFuelType));
+            parameters["Fuel Type"] = fuelType;
+
+            return parameters;
+        }
+
+        private string getEnumSelection(Type i_enumType)
+        {
+            Array enumValues = Enum.GetValues(i_enumType);
+            int counter = 1;
+            string userInput;
+
+            Console.WriteLine("Please select type:");
+            foreach (var value in enumValues)
+            {
+                Console.WriteLine($"{counter} - {value}");
+                counter++;
+            }
+
+            userInput = Console.ReadLine();
+
+            return userInput;
         }
     }
 }

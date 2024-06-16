@@ -20,14 +20,26 @@ namespace Ex03.GarageLogic
         public override Dictionary<string, Type> GetParameters()
         {
             Dictionary<string, Type> parameters = base.GetParameters();
+
             parameters.Add("Current Amount of Fuel In Tank", typeof(float));
             return parameters;
         }
 
-        protected override void InitializeCarSpecificParameters(Dictionary<string, object> iParameters)
+        public override Dictionary<string, string> GetFilledParameters()
         {
-            float currentAmountOfFuelInTank = (float)iParameters["Current Amount of Fuel In Tank"];
-            
+            Dictionary<string, string> parameters = base.GetFilledParameters();
+
+            parameters.Add("Engine type", "Fuel");
+            parameters.Add("Fuel type", k_FuelType.ToString());
+            parameters.Add("Energy left:", m_Engine.EnergyLeftInTank.ToString());
+            return parameters;
+        }
+
+        protected override void InitializeCarSpecificParameters(Dictionary<string, object> i_Parameters)
+        {
+            //float currentAmountOfFuelInTank = (float)iParameters["Current Amount of Fuel In Tank"];
+            float.TryParse(((string)i_Parameters["Current Amount of Fuel In Tank"]), out float currentAmountOfFuelInTank);
+
             ((FuelEngine)m_Engine).CurrentAmountOfFuelInTank = currentAmountOfFuelInTank;
         }
     }

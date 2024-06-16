@@ -64,6 +64,17 @@ namespace Ex03.GarageLogic
             {
                 { "License Plate", typeof(string) },
                 { "Model Name", typeof(string) }
+               // { "Tires Air Pressure", typeof(float) }
+            };
+        }
+
+        public virtual Dictionary<string, string> GetFilledParameters()
+        {
+            return new Dictionary<string, string>
+            {
+                { "License Plate", m_LicensePlate },
+                { "Model Name", m_ModelName }
+               // { "Tires Air Pressure", typeof(float) }
             };
         }
 
@@ -105,5 +116,6 @@ namespace Ex03.GarageLogic
         {
             m_Engine.RefuelOrRecharge(i_Parameters);
         }
+
     }
 }

@@ -7,7 +7,7 @@ namespace Ex03.GarageLogic.vehicle
     public class VehicleFactory
     {
         private readonly Dictionary<eVehicleType, Type> r_VehicleTypes;
-        
+
         public enum eVehicleType
         {
             ElectricCar,
@@ -106,5 +106,6 @@ namespace Ex03.GarageLogic.vehicle
         {
             i_Vehicle.Initialize(parameters);
         }
+
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
-    internal class FuelEngine : Engine
+    public class FuelEngine : Engine
     {
         private readonly eFuelType r_FuelType;
         private readonly float r_MaxFuelTankCapacity;
@@ -16,18 +16,11 @@ namespace Ex03.GarageLogic
 
         public enum eFuelType
         {
-            Soler,
+            Soler = 1,
             Octan95,
             Octan96,
             Octan98
         }
-
-        //public FuelTypeVehicleAttributes(eFuelType i_FuelType, float i_MaxFuelTankCapacity, float i_CurrentFuelTankCapacity)
-        //{
-        //    r_FuelType = i_FuelType;
-        //    r_MaxFuelTankCapacity = i_MaxFuelTankCapacity;
-        //    m_CurrentFuelTankCapacity = i_CurrentFuelTankCapacity;
-        //}
 
         public float CurrentAmountOfFuelInTank
         {
@@ -62,8 +55,8 @@ namespace Ex03.GarageLogic
                 throw new ArgumentException("Missing parameters for refueling.");
             }
 
-            litersToAdd = (float)i_Parameters["LitersToAdd"];
-            fuelTypeParsedSuccessfully = Enum.TryParse((string)i_Parameters["FuelType"], out eFuelType fuelType);
+            litersToAdd = (float)i_Parameters["Liters To Add"];
+            fuelTypeParsedSuccessfully = Enum.TryParse((string)i_Parameters["Fuel Type"], out eFuelType fuelType);
             if (!fuelTypeParsedSuccessfully)
             {
                 throw new FormatException("Fuel type should be one of these: Soler, Octan95, Octan96, Octan98");

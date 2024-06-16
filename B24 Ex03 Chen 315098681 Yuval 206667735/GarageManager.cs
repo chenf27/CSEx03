@@ -15,63 +15,6 @@ namespace Ex03.GarageLogic
         public const float k_CarMaxBatteryHoursLeft = 3.5f;
 
 
-        public Vehicle CreateVehicle(VehicleFactory.eVehicleType i_VehicleType)
-        {
-            Vehicle vehicle;
-
-            switch(i_VehicleType)
-            {
-                case VehicleFactory.eVehicleType.ElectricCar:
-                    vehicle = new ElectricTypeCar();
-                    break;
-                case VehicleFactory.eVehicleType.FuelCar:
-                    vehicle = new FuelTypeCar();
-                    break;
-                case VehicleFactory.eVehicleType.ElectricMotorcycle:
-                    vehicle = new ElectricTypeMotorcycle();
-                    break;
-                case VehicleFactory.eVehicleType.FuelMotorcycle:
-                    vehicle = new FuelTypeMotorcycle();
-                    break;
-                case VehicleFactory.eVehicleType.Truck:
-                    vehicle = new Truck();
-                    break;
-                default:
-                    //TODO EXEPTION
-                    vehicle = new ElectricTypeMotorcycle();
-                    break;
-            }
-
-            return vehicle;
-        }
-
-        public void CreateNewVehicleInTheGarage(VehicleFactory.eVehicleType i_VehicleType, VehicleInGarage.Owner i_Owner)
-        {
-            switch (i_VehicleType)
-            {
-                case VehicleFactory.eVehicleType.ElectricCar:
-                    //ElectricTypeCar Car = new ElectricTypeCar();
-                    break;
-
-            }
-        }
-
-        public void CreateCar(VehicleFactory.eVehicleType i_VehicleType, Car.eCarColor i_CarColor, int i_NumOfDoors, string i_ModelName, string i_LicensePlate, float i_EnergyLeftInTank, Tire[] i_Tires)
-        {
-            float energyRemains = 0;
-            if (i_VehicleType == VehicleFactory.eVehicleType.ElectricCar)
-            {
-                energyRemains = generateCurrentEnergyLevel(VehicleFactory.eVehicleType.ElectricCar, i_EnergyLeftInTank);
-                //ElectricEngine electricCar = new ElectricTypeVehicleAttributes(k_CarMaxBatteryHoursLeft, energyRemains);
-                //ElectricTypeCar car = new ElectricTypeCar(electricCar, i_CarColor, i_NumOfDoors, i_ModelName, i_LicensePlate, i_EnergyLeftInTank, i_Tires);
-            }
-        }
-
-        public void AddVehicleInGarage(VehicleInGarage i_Vehicle)
-        {
-           m_VehiclesByLicensePlate.Add(i_Vehicle.Vehicle.LicensePlate, i_Vehicle);
-        }
-
         public bool AlreadyInGarage(string i_LicensePlate)
         {
             return m_VehiclesByLicensePlate.ContainsKey(i_LicensePlate);
@@ -127,6 +70,23 @@ namespace Ex03.GarageLogic
             }
 
             return licensePlates;
+        }
+
+        public void EnterVehicleToGarage(Vehicle i_Vehicle, VehicleInGarage.Owner i_Owner)
+        {
+            VehicleInGarage vehicleInGarage = new VehicleInGarage(i_Vehicle, i_Owner);
+
+            m_VehiclesByLicensePlate.Add(vehicleInGarage.Vehicle.LicensePlate, vehicleInGarage);
+        }
+
+
+
+        public Dictionary<string, VehicleInGarage> VehiclesByLicensePlate
+        {
+            get
+            {
+                return m_VehiclesByLicensePlate;
+            }
         }
     }
 }
