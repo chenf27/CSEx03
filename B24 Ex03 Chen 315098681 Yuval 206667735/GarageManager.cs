@@ -1,9 +1,5 @@
 ﻿using Ex03.GarageLogic.vehicle;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
@@ -39,7 +35,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-
+        // ------------------------------DELETE? we dont use it------------------------------
         private float generateCurrentEnergyLevel(VehicleFactory.eVehicleType i_VehicleType, float i_EnergyLeftInTank)
         {
             float energyLevel = 0;
@@ -57,13 +53,13 @@ namespace Ex03.GarageLogic
             return energyLevel;
         }
 
-        public List<string> GetLicensePlatesByStatus(VehicleInGarage.eStatus i_Status)
+        public List<string> GetLicensePlatesByStatus(int i_Status)
         {
             List<string> licensePlates = new List<string>();
 
             foreach(KeyValuePair<string, VehicleInGarage> vehicleInGarage in m_VehiclesByLicensePlate)
             {
-                if(vehicleInGarage.Value.VehicleStatus.Equals(i_Status))
+                if(vehicleInGarage.Value.VehicleStatus.Equals((VehicleInGarage.eStatus)i_Status))
                 {
                     licensePlates.Add(vehicleInGarage.Key);
                 }
@@ -79,7 +75,10 @@ namespace Ex03.GarageLogic
             m_VehiclesByLicensePlate.Add(vehicleInGarage.Vehicle.LicensePlate, vehicleInGarage);
         }
 
-
+        public void SetVehicleInGarageStatus(string licensePlate, int newStatus)
+        {
+            m_VehiclesByLicensePlate[licensePlate].VehicleStatus = (VehicleInGarage.eStatus)(newStatus);
+        }
 
         public Dictionary<string, VehicleInGarage> VehiclesByLicensePlate
         {

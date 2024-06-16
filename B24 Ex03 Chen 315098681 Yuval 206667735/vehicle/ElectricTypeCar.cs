@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
@@ -35,7 +32,12 @@ namespace Ex03.GarageLogic
         protected override void InitializeCarSpecificParameters(Dictionary<string, object> i_Parameters)
         {
             //float remainingBatteryHoursLeft = (float)i_Parameters["Remaining Battery Hours Left"];
-            float.TryParse(((string)i_Parameters["Remaining Battery Hours Left"]), out float remainingBatteryHoursLeft);
+            bool remainingBatteryParsedSuccessfully = float.TryParse(i_Parameters["Remaining Battery Hours Left"].ToString(), out float remainingBatteryHoursLeft);
+
+            if (!remainingBatteryParsedSuccessfully)
+            {
+                throw new FormatException("Current amount of fuel in tank must be a number");
+            }
 
             ((ElectricEngine)m_Engine).RemainingBatteryHoursLeft = remainingBatteryHoursLeft;
         }

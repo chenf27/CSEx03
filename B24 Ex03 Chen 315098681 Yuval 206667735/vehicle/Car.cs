@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
-using System.Text;
-using System.Threading.Tasks;
-using static Ex03.GarageLogic.Motorcycle;
 
 namespace Ex03.GarageLogic
 {
@@ -12,6 +7,8 @@ namespace Ex03.GarageLogic
     {
         protected eCarColor m_CarColor;
         protected int m_NumOfDoors;
+        private const int k_MinNumOfDoors = 2;
+        private const int k_MaxNumOfDoors = 5;
         private const int k_NumOfTires = 5;
         private const float k_MaxAirTirePressure = 31;
 
@@ -59,25 +56,32 @@ namespace Ex03.GarageLogic
 
         protected override void InitializeUniqueParameters(Dictionary<string, object> i_Parameters)
         {
-            bool carColorParsedSuccessfully = Enum.TryParse((string)i_Parameters["Car Color"], out eCarColor carColor);
-            //int numOfDoors = (int)i_Parameters["Number Of Doors"];
-            int.TryParse(((string)i_Parameters["Number Of Doors"]), out int numOfDoors);
+            bool carColorParsedSuccessfully = int.TryParse(i_Parameters["Car Color"].ToString(), out int carColor);
+            bool numOfDoorsParsedSuccessfully = int.TryParse(i_Parameters["Number Of Doors"].ToString(), out int numOfDoors);
             
-            validateCarParameters(carColorParsedSuccessfully);
-
-            m_CarColor = carColor;
+            validateCarParameters(carColorParsedSuccessfully, numOfDoorsParsedSuccessfully, numOfDoors);
+            m_CarColor = (eCarColor)carColor;
             m_NumOfDoors = numOfDoors;
-
             InitializeCarSpecificParameters(i_Parameters);
         }
 
         protected abstract void InitializeCarSpecificParameters(Dictionary<string, object> i_Parameters);
 
-        private void validateCarParameters(bool i_carColorParsedSuccessfully)
+        private void validateCarParameters(bool i_carColorParsedSuccessfully, bool i_NumOfDoorsParsedSuccessfully, int i_NumOfDoors)
         {
             if (!i_carColorParsedSuccessfully)
             {
                 throw new ArgumentException("Color must be one of these values: Yellow, White, Red, Black");
+            }
+            
+            if(!i_NumOfDoorsParsedSuccessfully)
+            {
+                throw new FormatException("Number of doors must be an integer");
+            }
+
+            if(i_NumOfDoors < k_MinNumOfDoors || i_NumOfDoors > k_MaxNumOfDoors)
+            {
+                throw new ValueOutOfRangeException(k_MinNumOfDoors, k_MaxNumOfDoors, "number of doors");
             }
         }
     }

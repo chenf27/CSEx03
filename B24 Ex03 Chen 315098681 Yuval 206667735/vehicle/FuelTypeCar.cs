@@ -38,7 +38,12 @@ namespace Ex03.GarageLogic
         protected override void InitializeCarSpecificParameters(Dictionary<string, object> i_Parameters)
         {
             //float currentAmountOfFuelInTank = (float)iParameters["Current Amount of Fuel In Tank"];
-            float.TryParse(((string)i_Parameters["Current Amount of Fuel In Tank"]), out float currentAmountOfFuelInTank);
+            bool remainingfuelParsedSuccessfully = float.TryParse(i_Parameters["Current Amount of Fuel In Tank"].ToString(), out float currentAmountOfFuelInTank);
+
+            if (!remainingfuelParsedSuccessfully)
+            {
+                throw new FormatException("Current amount of fuel in tank must be a number");
+            }
 
             ((FuelEngine)m_Engine).CurrentAmountOfFuelInTank = currentAmountOfFuelInTank;
         }

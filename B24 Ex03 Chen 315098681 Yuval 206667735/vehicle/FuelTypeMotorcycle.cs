@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Ex03.GarageLogic.Car;
-using static Ex03.GarageLogic.Motorcycle;
 
 namespace Ex03.GarageLogic
 {
@@ -39,7 +34,12 @@ namespace Ex03.GarageLogic
         protected override void InitializeMotorcycleSpecificParameters(Dictionary<string, object> i_Parameters)
         {
             // float currentFuelTankCapacity = (float)i_Parameters["Current Amount of Fuel In Tank"];
-            float.TryParse(((string)i_Parameters["Current Amount of Fuel In Tank"]), out float currentAmountOfFuelInTank);
+            bool remainingfuelParsedSuccessfully = float.TryParse(i_Parameters["Current Amount of Fuel In Tank"].ToString(), out float currentAmountOfFuelInTank);
+
+            if (!remainingfuelParsedSuccessfully)
+            {
+                throw new FormatException("Current amount of fuel in tank must be a number");
+            }
 
             ((FuelEngine)m_Engine).CurrentAmountOfFuelInTank = currentAmountOfFuelInTank;
         }

@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ex03.GarageLogic
+﻿namespace Ex03.GarageLogic
 {
     public class VehicleInGarage
     {
         private Vehicle m_Vehicle;
         private readonly Owner r_Owner;
         private eStatus m_VehicleStatus = eStatus.UnderRepair;
+
+        public enum eStatus
+        {
+            UnderRepair = 1,
+            Repaired,
+            PaidUp
+        }
 
         public VehicleInGarage(Vehicle i_Vehicle, Owner i_Owner)
         {
@@ -51,33 +52,22 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public enum eStatus
+        public struct Owner
         {
-            UnderRepair,
-            Repaired,
-            PaidUp,
-        }
+            private readonly string r_Name;
+            private readonly string r_Phone;
 
-        public class Owner
-        {
-            private string m_Name;
-            private string m_Phone;
-
-            //public Owner(string i_Name, string i_Phone)
-            //{
-            //    r_Name = i_Name;
-            //    r_Phone = i_Phone;
-            //}
+            public Owner(string i_Name, string i_Phone)
+            {
+                r_Name = i_Name;
+                r_Phone = i_Phone;
+            }
 
             public string Name
             {
                 get
                 {
-                    return m_Name;
-                }
-                set
-                {
-                    m_Name = value;
+                    return r_Name;
                 }
             }
             
@@ -85,11 +75,7 @@ namespace Ex03.GarageLogic
             {
                 get
                 {
-                    return m_Phone;
-                }
-                set
-                {
-                    m_Phone = value;
+                    return r_Phone;
                 }
             }
         }

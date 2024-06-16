@@ -72,17 +72,31 @@ namespace Ex03.GarageLogic
             // float currentAmountOfFuelInTank = (float)i_Parameters["Current Amount of Fuel In Tank"];
             
             m_ContainsHazardousMaterials = (bool)i_Parameters["Contains Hazardous Materials"];
-            float.TryParse(((string)i_Parameters["Cargo Volume"]), out float cargoVolume);
-            float.TryParse(((string)i_Parameters["Current Amount of Fuel In Tank"]), out float currentAmountOfFuelInTank);
+            bool cargoParsedSuccessfully = float.TryParse(i_Parameters["Cargo Volume"].ToString(), out float cargoVolume);
+            bool remainingfuelParsedSuccessfully = float.TryParse(i_Parameters["Current Amount of Fuel In Tank"].ToString(), out float currentAmountOfFuelInTank);
+            validateTruckParameters(cargoParsedSuccessfully, remainingfuelParsedSuccessfully);
 
             if (cargoVolume < 0)
             {
-                throw new ValueOutOfRangeException(0, int.MaxValue);
+                throw new ValueOutOfRangeException(0, int.MaxValue, "cargo volume");
             }
 
             m_CargoVolume = cargoVolume;
             ((FuelEngine)m_Engine).CurrentAmountOfFuelInTank = currentAmountOfFuelInTank;
         }
+
+        private void validateTruckParameters(bool i_CargoParsedSuccessfully, bool i_RemainingfuelParsedSuccessfully)
+        {
+            if (!i_CargoParsedSuccessfully)
+            {
+                throw new FormatException("Cargo volume must be a number");
+            }
+            if (!i_RemainingfuelParsedSuccessfully)
+            {
+                throw new FormatException("Current amount of fuel in tank must be a number");
+            }
+        }
+
     }
 }
 

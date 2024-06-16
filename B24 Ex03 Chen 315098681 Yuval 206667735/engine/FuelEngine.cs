@@ -32,7 +32,7 @@ namespace Ex03.GarageLogic
             {
                 if (value < 0 || value > r_MaxFuelTankCapacity)
                 {
-                    throw new ValueOutOfRangeException(0, r_MaxFuelTankCapacity);
+                    throw new ValueOutOfRangeException(0, r_MaxFuelTankCapacity - m_CurrentAmountOfFuelInTank, "remaining fuel left in the tank");
                 }
                 m_CurrentAmountOfFuelInTank = value;
                 m_EnergyLeftInTank = (m_CurrentAmountOfFuelInTank / r_MaxFuelTankCapacity) * 100;
@@ -47,7 +47,7 @@ namespace Ex03.GarageLogic
 
         public override void RefuelOrRecharge(Dictionary<string, object> i_Parameters)
         {
-            float litersToAdd;
+            bool litersToAddParsedSuccessfully;
             bool fuelTypeParsedSuccessfully;
 
             if (!i_Parameters.ContainsKey("Liters To Add") || !i_Parameters.ContainsKey("Fuel Type"))
@@ -55,8 +55,13 @@ namespace Ex03.GarageLogic
                 throw new ArgumentException("Missing parameters for refueling.");
             }
 
-            litersToAdd = (float)i_Parameters["Liters To Add"];
-            fuelTypeParsedSuccessfully = Enum.TryParse((string)i_Parameters["Fuel Type"], out eFuelType fuelType);
+            litersToAddParsedSuccessfully = float.TryParse(i_Parameters["Liters To Add"].ToString(), out float litersToAdd);
+            fuelTypeParsedSuccessfully = Enum.TryParse(i_Parameters["Fuel Type"].ToString(), out eFuelType fuelType);
+            if (!litersToAddParsedSuccessfully)
+            {
+                throw new FormatException("Liters to add must be a vaid number");
+            }
+
             if (!fuelTypeParsedSuccessfully)
             {
                 throw new FormatException("Fuel type should be one of these: Soler, Octan95, Octan96, Octan98");

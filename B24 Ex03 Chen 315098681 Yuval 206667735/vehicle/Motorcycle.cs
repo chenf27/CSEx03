@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Ex03.GarageLogic.Car;
 
 namespace Ex03.GarageLogic
 {
@@ -60,26 +56,26 @@ namespace Ex03.GarageLogic
 
         protected override void InitializeUniqueParameters(Dictionary<string, object> i_Parameters)
         {
-            bool licenseParsedSuccessfully = Enum.TryParse((string)i_Parameters["License Type"], out eLicenseType licenseType);
-            // int engineCapacity = (int)i_Parameters["Engine Capacity"];
+            bool licenseParsedSuccessfully = int.TryParse(i_Parameters["License Type"].ToString(), out int licenseType);
+            bool capacityParsedSuccessfully = int.TryParse(i_Parameters["Engine Capacity"].ToString(), out int engineCapacity);
 
-            int.TryParse(((string)i_Parameters["Engine Capacity"]), out int engineCapacity);
-
-            ValidateMotorcycleParameters(licenseParsedSuccessfully);
-
-            m_LicenseType = licenseType;
+            ValidateMotorcycleParameters(licenseParsedSuccessfully, capacityParsedSuccessfully);
+            m_LicenseType = (eLicenseType)licenseType;
             m_EngineCapacity = engineCapacity;
-
             InitializeMotorcycleSpecificParameters(i_Parameters);
         }
 
         protected abstract void InitializeMotorcycleSpecificParameters(Dictionary<string, object> i_Parameters);
 
-        private void ValidateMotorcycleParameters(bool i_licenseParsedSuccessfully)
+        private void ValidateMotorcycleParameters(bool i_licenseParsedSuccessfully, bool i_capacityParsedSuccessfully)
         {
             if (!i_licenseParsedSuccessfully)
             {
-                throw new ArgumentException("License Type must be one of these values: A, A1, AA, B1");
+                throw new FormatException("License Type must be one of these values: A, A1, AA, B1");
+            }
+            if (!i_capacityParsedSuccessfully)
+            {
+                throw new FormatException("Capacity must be an integer");
             }
         }
     }

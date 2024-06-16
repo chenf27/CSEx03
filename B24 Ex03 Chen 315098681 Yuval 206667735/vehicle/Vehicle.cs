@@ -1,9 +1,6 @@
 ﻿using Ex03.GarageLogic.engine;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
@@ -62,9 +59,8 @@ namespace Ex03.GarageLogic
         {
             return new Dictionary<string, Type>
             {
-                { "License Plate", typeof(string) },
                 { "Model Name", typeof(string) }
-               // { "Tires Air Pressure", typeof(float) }
+                // { "Tires Air Pressure", typeof(float) }
             };
         }
 
@@ -74,7 +70,7 @@ namespace Ex03.GarageLogic
             {
                 { "License Plate", m_LicensePlate },
                 { "Model Name", m_ModelName }
-               // { "Tires Air Pressure", typeof(float) }
+                // { "Tires Air Pressure", typeof(float) }
             };
         }
 

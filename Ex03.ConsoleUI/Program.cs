@@ -1,21 +1,17 @@
-﻿using Ex03.GarageLogic;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 /// <summary>
-/// Implent tires
-/// catch in run function
-/// overall lookout
-/// delete duplicates function
-/// add known params to function 7
-/// myabe change set owner
-/// 
+/// Implent tires ---------------------- not yet
+/// catch in run function -------------- done? needs more testing but so far it looks fine
+/// overall lookout -------------------- need to do at the end
+/// delete duplicates function --------- deleted, but maybe I missed some
+/// add known params to function 7 ----- didn't understand what you meant, so not done
+/// myabe change set owner ------------- done
+/// use generic function when possible - done
+/// unify enum handlling in vehicles --- done
+/// fixed some issues in engines ------- done
+/// add consts in UIManager? ----------- your call
 /// </summary> 
-
-
 
 namespace Ex03.ConsoleUI
 {
@@ -29,6 +25,7 @@ namespace Ex03.ConsoleUI
         public static void Run() 
         {
             UIManager uiManager = new UIManager();
+            const bool v_FuelTypeVehicle = true;
             int userChoice;
 
             while (true)
@@ -51,20 +48,21 @@ namespace Ex03.ConsoleUI
                             uiManager.InflatingTireToMax();
                             break;
                         case 5:
-                            //TODO CAHNGE TO BOOL
-                            uiManager.ChargeOrFuelVehicle(userChoice);
+                            uiManager.ChargeOrFuelVehicle(v_FuelTypeVehicle);
                             break;
                         case 6:
-                            uiManager.ChargeOrFuelVehicle(userChoice);
+                            uiManager.ChargeOrFuelVehicle(!v_FuelTypeVehicle);
                             break;
                         case 7:
                             uiManager.GetVehicleDetailsByLicensePlate();
                             break;
                     }
-                }
-                catch // need to think about that 
-                {
 
+                    Console.WriteLine();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
                 }
             }
         }

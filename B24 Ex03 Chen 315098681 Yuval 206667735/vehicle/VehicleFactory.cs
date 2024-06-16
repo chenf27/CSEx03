@@ -10,7 +10,7 @@ namespace Ex03.GarageLogic.vehicle
 
         public enum eVehicleType
         {
-            ElectricCar,
+            ElectricCar = 1,
             FuelCar,
             ElectricMotorcycle,
             FuelMotorcycle,
@@ -63,7 +63,7 @@ namespace Ex03.GarageLogic.vehicle
             return newVehicle;
         }
 
-        public Vehicle InitializeVehicle(int i_UserChoiceVehicleType)
+        public Vehicle CreateUninitializesVehicle(int i_UserChoiceVehicleType)
         {
             eVehicleType vehicleType = parseUserChoice(i_UserChoiceVehicleType);
             Vehicle vehicle = createVehicle(vehicleType); 

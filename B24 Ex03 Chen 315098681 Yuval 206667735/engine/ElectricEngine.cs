@@ -38,7 +38,7 @@ namespace Ex03.GarageLogic
             {
                 if (value < 0 || value > r_MaxBatteryHoursLeft)
                 {
-                    throw new ValueOutOfRangeException(0, r_MaxBatteryHoursLeft);
+                    throw new ValueOutOfRangeException(0, r_MaxBatteryHoursLeft - m_RemainingBatteryHoursLeft, "remaining battery hours left");
                 }
                 m_RemainingBatteryHoursLeft = value;
                 m_EnergyLeftInTank = (m_RemainingBatteryHoursLeft / r_MaxBatteryHoursLeft) * 100;
@@ -47,14 +47,18 @@ namespace Ex03.GarageLogic
 
         public override void RefuelOrRecharge(Dictionary<string, object> i_Parameters)
         {
-            float hoursToCharge;
+            bool hoursToChargeParsedSuccessfully;
 
             if (!i_Parameters.ContainsKey("Hours To Charge"))
             {
                 throw new ArgumentException("Missing parameter for recharging.");
             }
 
-            hoursToCharge = (float)i_Parameters["Hours To Charge"];
+            hoursToChargeParsedSuccessfully = float.TryParse(i_Parameters["Hours To Charge"].ToString(), out float hoursToCharge);
+            if (!hoursToChargeParsedSuccessfully)
+            {
+                throw new FormatException("Hours to charge must be a vaid number");
+            }
             RemainingBatteryHoursLeft += hoursToCharge;
         }
 
