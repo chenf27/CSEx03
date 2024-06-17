@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
@@ -19,26 +15,6 @@ namespace Ex03.GarageLogic
         internal Truck()
         {
             base.m_Engine = new FuelEngine(k_FuelType, k_MaxFuelTankCapacity);
-        }
-
-        public float CargoVolume
-        {
-            get
-            {
-                return m_CargoVolume;
-            }
-        }
-
-        public bool ContainsHazardousMaterials
-        {
-            get
-            {
-                return m_ContainsHazardousMaterials;
-            }
-            set
-            {
-                m_ContainsHazardousMaterials = value;
-            }
         }
 
         public override Dictionary<string, Type> GetParameters()
@@ -69,17 +45,13 @@ namespace Ex03.GarageLogic
             parameters.Add("Cargo Volume", m_CargoVolume.ToString());
             parameters.Add("Engine type", "Fuel");
             parameters.Add("Fuel type", k_FuelType.ToString());
-            parameters.Add("Energy left:", m_Engine.EnergyLeftInTank.ToString());
+            parameters.Add("Energy left", m_Engine.EnergyLeftInTank.ToString());
 
             return parameters;
         }
 
         protected override void InitializeUniqueParameters(Dictionary<string, object> i_Parameters)
         {
-            //bool.TryParse(((string)i_Parameters["Contains Hazardous Materials"]), out m_ContainsHazardousMaterials);
-            //float cargoVolume = (float)i_Parameters["Cargo Volume"];
-            // float currentAmountOfFuelInTank = (float)i_Parameters["Current Amount of Fuel In Tank"];
-            
             m_ContainsHazardousMaterials = (bool)i_Parameters["Contains Hazardous Materials"];
             bool cargoParsedSuccessfully = float.TryParse(i_Parameters["Cargo Volume"].ToString(), out float cargoVolume);
             bool remainingfuelParsedSuccessfully = float.TryParse(i_Parameters["Current Amount of Fuel In Tank"].ToString(), out float currentAmountOfFuelInTank);
@@ -105,7 +77,6 @@ namespace Ex03.GarageLogic
                 throw new FormatException("Current amount of fuel in tank must be a number");
             }
         }
-
     }
 }
 

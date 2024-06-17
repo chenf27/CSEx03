@@ -31,7 +31,6 @@ namespace Ex03.GarageLogic
 
         protected override void InitializeCarSpecificParameters(Dictionary<string, object> i_Parameters)
         {
-            //float remainingBatteryHoursLeft = (float)i_Parameters["Remaining Battery Hours Left"];
             bool remainingBatteryParsedSuccessfully = float.TryParse(i_Parameters["Remaining Battery Hours Left"].ToString(), out float remainingBatteryHoursLeft);
 
             if (!remainingBatteryParsedSuccessfully)

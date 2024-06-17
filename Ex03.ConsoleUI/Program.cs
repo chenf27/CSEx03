@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ex03.GarageLogic.vehicle;
+using System;
 
 /// <summary>
 /// Implent tires ---------------------- done
@@ -20,6 +21,7 @@ namespace Ex03.ConsoleUI
         public static void Run() 
         {
             UIManager uiManager = new UIManager();
+            VehicleFactory vehicleFactory = new VehicleFactory();
             const bool v_FuelTypeVehicle = true;
             int userChoice;
 
@@ -32,7 +34,7 @@ namespace Ex03.ConsoleUI
                     switch (userChoice)
                     {
                         case 1:
-                            uiManager.PuttingCarToGarage();
+                            uiManager.AddingCarToGarage(vehicleFactory);
                             break;
                         case 2:
                             uiManager.GetVehiclesStatus();
@@ -53,12 +55,14 @@ namespace Ex03.ConsoleUI
                             uiManager.GetVehicleDetailsByLicensePlate();
                             break;
                     }
-
-                    Console.WriteLine();
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    Console.WriteLine();
                 }
             }
         }

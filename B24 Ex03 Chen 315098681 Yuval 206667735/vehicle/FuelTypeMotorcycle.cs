@@ -27,13 +27,12 @@ namespace Ex03.GarageLogic
 
             parameters.Add("Engine type", "Fuel");
             parameters.Add("Fuel type", k_FuelType.ToString());
-            parameters.Add("Energy left:", m_Engine.EnergyLeftInTank.ToString());
+            parameters.Add("Energy left", m_Engine.EnergyLeftInTank.ToString());
 
             return parameters;
         }
         protected override void InitializeMotorcycleSpecificParameters(Dictionary<string, object> i_Parameters)
         {
-            // float currentFuelTankCapacity = (float)i_Parameters["Current Amount of Fuel In Tank"];
             bool remainingfuelParsedSuccessfully = float.TryParse(i_Parameters["Current Amount of Fuel In Tank"].ToString(), out float currentAmountOfFuelInTank);
 
             if (!remainingfuelParsedSuccessfully)

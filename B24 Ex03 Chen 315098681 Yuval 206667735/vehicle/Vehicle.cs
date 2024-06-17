@@ -112,7 +112,7 @@ namespace Ex03.GarageLogic
                 throw new ArgumentException("License Plate and Model Name cannot be null or empty.");
             }
         }
-
+        //TODO unused method - delete?
         public void RefuelOrRecharge(Dictionary<string, object> i_Parameters)
         {
             m_Engine.RefuelOrRecharge(i_Parameters);

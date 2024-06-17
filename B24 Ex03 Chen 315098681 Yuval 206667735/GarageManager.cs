@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Ex03.GarageLogic
 {
@@ -70,12 +69,15 @@ namespace Ex03.GarageLogic
         public void InstallTiresOnVehicle(Vehicle io_Vehicle, float i_CurrentTireAirPressure, string i_Manufacturer)
         {
             Dictionary<string, string> parameters = io_Vehicle.GetTiresKnownInfo();
-            int.TryParse(parameters["Number Of Tires"],out int numOfTires);
-            float.TryParse(parameters["Max Air Pressure In Tires"], out float maxAirPressure);
+            int numOfTires = int.Parse(parameters["Number Of Tires"]);
+            float maxAirPressure = float.Parse(parameters["Max Air Pressure In Tires"]);
             Tire[] tires = new Tire[numOfTires];
-
-            //TODO CHECKS THAT CURR AIR PRESSURE ISNT MORE THAN MAX
-            //TODO MAYBE FOREACH, DIDNT WORK OUT LAST TIME
+            
+            if(i_CurrentTireAirPressure > maxAirPressure)
+            {
+                throw new ValueOutOfRangeException(0, maxAirPressure, "air pressure");
+            }
+            
             for(int i = 0; i < numOfTires; i++)
             {
                 tires[i] = new Tire(i_Manufacturer, i_CurrentTireAirPressure, maxAirPressure);

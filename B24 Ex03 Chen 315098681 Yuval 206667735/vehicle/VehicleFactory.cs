@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Ex03.GarageLogic.vehicle
 {
@@ -28,7 +27,7 @@ namespace Ex03.GarageLogic.vehicle
                 { eVehicleType.Truck, typeof(Truck) }
             };
         }
-
+        //TODO unused method - delete?
         public eVehicleType[] GetSupportedVehicleTypes()
         {
             eVehicleType[] supportedVehicleTypes = { eVehicleType.ElectricCar, eVehicleType.FuelCar, eVehicleType.ElectricMotorcycle, eVehicleType.FuelMotorcycle, eVehicleType.Truck };
@@ -68,9 +67,6 @@ namespace Ex03.GarageLogic.vehicle
             eVehicleType vehicleType = parseUserChoice(i_UserChoiceVehicleType);
             Vehicle vehicle = createVehicle(vehicleType); 
 
-            // TODO: put the new vehicle inside a VehicleInGarage object and send it to GarageManager
-            //       check if we need to return car to UI or not
-
             return vehicle;
         }
 
@@ -101,11 +97,10 @@ namespace Ex03.GarageLogic.vehicle
 
             return vehicleType;
         }
-
+        //TODO unused method - delete?
         public void FillVehicleParameters(Vehicle i_Vehicle, Dictionary<string, object> parameters)
         {
             i_Vehicle.Initialize(parameters);
         }
-
     }
 }
