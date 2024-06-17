@@ -49,7 +49,7 @@ namespace Ex03.GarageLogic
 
             if(!i_Parameters.ContainsKey("Liters To Add") || !i_Parameters.ContainsKey("Fuel Type"))
             {
-                throw new ArgumentException("Missing parameters for refueling. Make sure the selected vehicle has a fuel type engine");
+                throw new ArgumentException("Missing parameters for refueling. Make sure the selected vehicle has an electric engine");
             }
 
             litersToAddParsedSuccessfully = float.TryParse(i_Parameters["Liters To Add"].ToString(), out float litersToAdd);

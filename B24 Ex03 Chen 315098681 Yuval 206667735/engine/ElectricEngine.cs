@@ -49,7 +49,7 @@ namespace Ex03.GarageLogic
 
             if(!i_Parameters.ContainsKey("Hours To Charge"))
             {
-                throw new ArgumentException("Missing parameter for recharging. Make sure the selected vehicle has an electric engine");
+                throw new ArgumentException("Missing parameter for recharging. Make sure the selected vehicle has a fuel type engine");
             }
 
             hoursToChargeParsedSuccessfully = float.TryParse(i_Parameters["Hours To Charge"].ToString(), out float hoursToCharge);
