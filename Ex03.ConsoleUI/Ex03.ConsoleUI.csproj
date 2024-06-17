@@ -40,7 +40,7 @@
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\B24 Ex03 Chen 315098681 Yuval 206667735\Ex03.GarageLogic.csproj">
+    <ProjectReference Include="..\Ex03.GarageLogic\Ex03.GarageLogic.csproj">
       <Project>{93f560eb-ce6e-482a-8e99-07197cf27515}</Project>
       <Name>Ex03.GarageLogic</Name>
     </ProjectReference>
