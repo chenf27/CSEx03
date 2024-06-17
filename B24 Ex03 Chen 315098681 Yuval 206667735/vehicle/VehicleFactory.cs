@@ -5,8 +5,6 @@ namespace Ex03.GarageLogic.vehicle
 {
     public class VehicleFactory
     {
-        private readonly Dictionary<eVehicleType, Type> r_VehicleTypes;
-
         public enum eVehicleType
         {
             ElectricCar = 1,
@@ -15,25 +13,7 @@ namespace Ex03.GarageLogic.vehicle
             FuelMotorcycle,
             Truck
         }
-
-        public VehicleFactory()
-        {
-            r_VehicleTypes = new Dictionary<eVehicleType, Type>
-            {
-                { eVehicleType.ElectricCar, typeof(ElectricTypeCar) },
-                { eVehicleType.FuelCar, typeof(FuelTypeCar) },
-                { eVehicleType.ElectricMotorcycle, typeof(ElectricTypeMotorcycle) },
-                { eVehicleType.FuelMotorcycle, typeof(FuelTypeMotorcycle) },
-                { eVehicleType.Truck, typeof(Truck) }
-            };
-        }
-        //TODO unused method - delete?
-        public eVehicleType[] GetSupportedVehicleTypes()
-        {
-            eVehicleType[] supportedVehicleTypes = { eVehicleType.ElectricCar, eVehicleType.FuelCar, eVehicleType.ElectricMotorcycle, eVehicleType.FuelMotorcycle, eVehicleType.Truck };
-            return supportedVehicleTypes;
-        }
-
+        
         private Vehicle createVehicle(eVehicleType i_VehicleType) 
         {
             Vehicle newVehicle;
@@ -96,11 +76,6 @@ namespace Ex03.GarageLogic.vehicle
             }
 
             return vehicleType;
-        }
-        //TODO unused method - delete?
-        public void FillVehicleParameters(Vehicle i_Vehicle, Dictionary<string, object> parameters)
-        {
-            i_Vehicle.Initialize(parameters);
         }
     }
 }

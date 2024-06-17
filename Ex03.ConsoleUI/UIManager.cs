@@ -8,8 +8,11 @@ namespace Ex03.ConsoleUI
     internal class UIManager
     {
         GarageManager m_GarageManager = new GarageManager();
-        private const int k_AllVehiclesIndex = 4;
-        private const string vehicleNotInGarageMessage = "This vehicle is not in the garage!";
+        private const int k_AllVehiclesStatusIndex = 4;
+        private const int k_MinimumUserChoiceValue = 1;
+        private const int k_MaximumUserChoiceValue = 7;
+        private const string k_VehicleNotInGarageMessage = "This vehicle is not in the garage!";
+        private const string k_EnterLicensePlateMessage = "Please enter the license plate of the vehicle:";
         public int PrintMenuAndGetChoice()
         {
             int usersChoice = 0;
@@ -17,7 +20,7 @@ namespace Ex03.ConsoleUI
             bool validInput = false;
 
             Console.WriteLine("Please select from the following options");
-            while (!validInput)
+            while(!validInput)
             {
                 Console.WriteLine(@"1 - Enter a vehicle to the garage
 2 - See the License plates of the vehicles currently in the garage
@@ -27,26 +30,26 @@ namespace Ex03.ConsoleUI
 6 - Vehicle charging
 7 - Get vehicle details");
                 userInput =  Console.ReadLine();
-                if(int.TryParse(userInput, out usersChoice) && usersChoice >= 1 && usersChoice <= 7)
+                if(int.TryParse(userInput, out usersChoice) && usersChoice >= k_MinimumUserChoiceValue && usersChoice <= k_MaximumUserChoiceValue)
                 {
                     validInput = true;
                 }
             }
             
             return usersChoice;
-        } //DONE
+        }
 
         public void AddingCarToGarage(VehicleFactory i_VehicleFactory)
         {
             string licensePlate;
             Vehicle vehicle;
             int vehicleType;
-            Dictionary<string, Object> parameters;
+            Dictionary<string, Object> vehicleParameters;
             VehicleInGarage.Owner owner;
 
-            Console.WriteLine("Please enter the license plate of the vehicle");
+            Console.WriteLine(k_EnterLicensePlateMessage);
             licensePlate = Console.ReadLine();
-            if (m_GarageManager.IsVehicleInGarage(licensePlate))
+            if(m_GarageManager.IsVehicleInGarage(licensePlate))
             {
                 Console.WriteLine("HOLA! The vehicle is already in our garage");
                 m_GarageManager.SetVehicleInGarageStatus(licensePlate, VehicleInGarage.eStatus.UnderRepair);
@@ -55,13 +58,13 @@ namespace Ex03.ConsoleUI
             {
                 vehicleType = getEnumSelection(typeof(VehicleFactory.eVehicleType));
                 vehicle = i_VehicleFactory.CreateUninitializesVehicle(vehicleType);
-                parameters = getVehicleParameters(vehicle, licensePlate);
-                vehicle.Initialize(parameters);
+                vehicleParameters = getVehicleParameters(vehicle, licensePlate);
+                vehicle.Initialize(vehicleParameters);
                 addTires(vehicle);
                 owner = SetOwnerDetails();
                 m_GarageManager.EnterVehicleToGarage(vehicle, owner);
             }
-        } //DONE
+        }
 
         private void addTires(Vehicle io_Vehicle)
         {
@@ -78,27 +81,27 @@ namespace Ex03.ConsoleUI
             }
 
             m_GarageManager.InstallTiresOnVehicle(io_Vehicle, currentAirPressure, tireManufacturer);
-        } //DONE
+        }
 
-        private Dictionary<string, Object> getVehicleParameters(Vehicle i_Vehicle, string i_LicensePlate)
+        private Dictionary<string, object> getVehicleParameters(Vehicle i_Vehicle, string i_LicensePlate)
         {
             Dictionary<string, Type> keyValuePairs;
-            Dictionary<string, Object> parametersToInitiateVehicle = new Dictionary<string, Object>();
+            Dictionary<string, object> parametersToInitiateVehicle = new Dictionary<string, object>();
             string userChoice;
 
             parametersToInitiateVehicle["License Plate"] = i_LicensePlate;
             keyValuePairs = i_Vehicle.GetParameters();
             Console.WriteLine("Please enter the following parameters:");
-            foreach (KeyValuePair<string, Type> item in keyValuePairs)
+            foreach(KeyValuePair<string, Type> item in keyValuePairs)
             {
                 Console.WriteLine(item.Key);
-                if (item.Value.IsEnum)
+                if(item.Value.IsEnum)
                 {
                     parametersToInitiateVehicle[item.Key] = getEnumSelection(item.Value);
                 }
                 else if(item.Value == typeof(bool))
                 {
-                    Console.WriteLine("Enter Y if yes, otherwise no");
+                    Console.WriteLine("Enter Y if true, otherwise false:");
                     userChoice = Console.ReadLine();
                     parametersToInitiateVehicle[item.Key] = userChoice == "Y";
                 }
@@ -109,7 +112,7 @@ namespace Ex03.ConsoleUI
             }
 
             return parametersToInitiateVehicle;
-        } //DONE
+        }
 
         public void GetVehicleDetailsByLicensePlate()
         {
@@ -117,14 +120,13 @@ namespace Ex03.ConsoleUI
             Dictionary<string, string> parameters;
             VehicleInGarage vehicleInGarage;
 
-            Console.WriteLine("Please enter your license Plate:");
+            Console.WriteLine(k_EnterLicensePlateMessage);
             licensePlate = Console.ReadLine();
 
             if(m_GarageManager.IsVehicleInGarage(licensePlate))
             {
                 vehicleInGarage = m_GarageManager.VehiclesByLicensePlate[licensePlate];
                 parameters = vehicleInGarage.Vehicle.GetFilledParameters();
-                
                 foreach(KeyValuePair<string, string> item in parameters)
                 {
                     Console.WriteLine("{0}: {1}", item.Key, item.Value);
@@ -136,9 +138,9 @@ Vehicle status: {2}", vehicleInGarage.OwnerDetails.Name, vehicleInGarage.OwnerDe
             }
             else
             {
-                Console.WriteLine(vehicleNotInGarageMessage);
+                Console.WriteLine(k_VehicleNotInGarageMessage);
             }
-        } //DONE
+        }
 
         public void GetVehiclesStatus()
         {
@@ -155,15 +157,15 @@ Vehicle status: {2}", vehicleInGarage.OwnerDetails.Name, vehicleInGarage.OwnerDe
             {
                 throw new FormatException("You must select the number of the option you'd like to see!");
             }
-            else if(userChoice < 1 && userChoice > k_AllVehiclesIndex)
+            else if(userChoice < k_MinimumUserChoiceValue && userChoice > k_AllVehiclesStatusIndex)
             {
-                throw new ValueOutOfRangeException(1, k_AllVehiclesIndex, "user choice for vehicle's status");
+                throw new ValueOutOfRangeException(k_MinimumUserChoiceValue, k_AllVehiclesStatusIndex, "user choice for vehicle's status");
             }
             
             Console.WriteLine("Vehicles license plates:");
-            if (userChoice == k_AllVehiclesIndex)
+            if(userChoice == k_AllVehiclesStatusIndex)
             {
-                foreach (KeyValuePair<string, VehicleInGarage> vehicleInGarage in m_GarageManager.VehiclesByLicensePlate)
+                foreach(KeyValuePair<string, VehicleInGarage> vehicleInGarage in m_GarageManager.VehiclesByLicensePlate)
                 {
                     Console.WriteLine(vehicleInGarage.Key);
                 }
@@ -171,19 +173,19 @@ Vehicle status: {2}", vehicleInGarage.OwnerDetails.Name, vehicleInGarage.OwnerDe
             else
             {
                 vehiclesByStatus = m_GarageManager.GetLicensePlatesByStatus(userChoice);
-                foreach (string vehicles in vehiclesByStatus)
+                foreach(string vehicles in vehiclesByStatus)
                 {
                     Console.WriteLine(vehicles);
                 }
             }
-        } //DONE
+        } 
 
         public void ChangeVehicleInGarageStatus()
         {
             string licensePlate;
             int newStatus;
 
-            Console.WriteLine("Please enter your vehicle's license plate:");
+            Console.WriteLine(k_EnterLicensePlateMessage);
             licensePlate = Console.ReadLine();
             if(m_GarageManager.IsVehicleInGarage(licensePlate))
             {
@@ -192,9 +194,9 @@ Vehicle status: {2}", vehicleInGarage.OwnerDetails.Name, vehicleInGarage.OwnerDe
             }
             else
             {
-                Console.WriteLine(vehicleNotInGarageMessage);
+                Console.WriteLine(k_VehicleNotInGarageMessage);
             }
-        } //DONE
+        }
 
         public void InflatingTireToMax()
         {
@@ -202,7 +204,7 @@ Vehicle status: {2}", vehicleInGarage.OwnerDetails.Name, vehicleInGarage.OwnerDe
             float maxAirPressre, currentAirPressure, airPressureToAdd;
             Vehicle vehicle;
 
-            Console.WriteLine("Please enter your vehicle's license plate:");
+            Console.WriteLine(k_EnterLicensePlateMessage);
             licensePlate = Console.ReadLine();
             if(m_GarageManager.IsVehicleInGarage(licensePlate))
             {
@@ -210,17 +212,16 @@ Vehicle status: {2}", vehicleInGarage.OwnerDetails.Name, vehicleInGarage.OwnerDe
                 currentAirPressure = vehicle.Tires[0].CurrentAirPressure;
                 maxAirPressre = vehicle.Tires[0].MaxAirPressure;
                 airPressureToAdd = maxAirPressre - currentAirPressure;
-
                 foreach(Tire tire in vehicle.Tires)
                 {
-                    tire.InflatingTire(airPressureToAdd);
+                    tire.InflateTire(airPressureToAdd);
                 }
             }
             else
             {
-                Console.WriteLine(vehicleNotInGarageMessage);
+                Console.WriteLine(k_VehicleNotInGarageMessage);
             }
-        } //DONE
+        }
 
         public VehicleInGarage.Owner SetOwnerDetails()
         {
@@ -233,7 +234,7 @@ Vehicle status: {2}", vehicleInGarage.OwnerDetails.Name, vehicleInGarage.OwnerDe
             VehicleInGarage.Owner owner = new VehicleInGarage.Owner(name, phoneNumber);
 
             return owner;
-        } //DONE
+        }
 
         public void ChargeOrFuelVehicle(bool i_FuelTypeVehicle)
         {
@@ -241,11 +242,11 @@ Vehicle status: {2}", vehicleInGarage.OwnerDetails.Name, vehicleInGarage.OwnerDe
             Vehicle vehicle;
             string licensePlate;
 
-            Console.WriteLine("Please enter the Vehicle License Plate");
+            Console.WriteLine(k_EnterLicensePlateMessage);
             licensePlate = Console.ReadLine();
             if(m_GarageManager.IsVehicleInGarage(licensePlate))
             {
-                if (i_FuelTypeVehicle)
+                if(i_FuelTypeVehicle)
                 {
                     parameters = reFuelVehicle();
                 }
@@ -259,9 +260,9 @@ Vehicle status: {2}", vehicleInGarage.OwnerDetails.Name, vehicleInGarage.OwnerDe
             }
             else
             {
-                Console.WriteLine(vehicleNotInGarageMessage);
+                Console.WriteLine(k_VehicleNotInGarageMessage);
             }
-        } //DONE
+        }
 
         private Dictionary<string, object> chargeElectricVehicle()
         {
@@ -278,7 +279,7 @@ Vehicle status: {2}", vehicleInGarage.OwnerDetails.Name, vehicleInGarage.OwnerDe
             parameters["Hours To Charge"] = amountToChargeOrFuel;
 
             return parameters;
-        } //DONE
+        }
 
         private Dictionary<string, object> reFuelVehicle()
         {
@@ -288,7 +289,7 @@ Vehicle status: {2}", vehicleInGarage.OwnerDetails.Name, vehicleInGarage.OwnerDe
 
             Console.WriteLine("Please enter how many liters to refuel");
             litersToRefuelOrFuelParsedSuccessfully = float.TryParse(Console.ReadLine(), out float amountToFuel);
-            if (!litersToRefuelOrFuelParsedSuccessfully)
+            if(!litersToRefuelOrFuelParsedSuccessfully)
             {
                 throw new FormatException("Liters to refuel must be a valid number!");
             }
@@ -299,17 +300,17 @@ Vehicle status: {2}", vehicleInGarage.OwnerDetails.Name, vehicleInGarage.OwnerDe
             parameters["Fuel Type"] = fuelType;
 
             return parameters;
-        } //DONE
+        }
 
-        private int getEnumSelection(Type i_enumType)
+        private int getEnumSelection(Type i_EnumType)
         {
-            Array enumValues = Enum.GetValues(i_enumType);
-            int counter = 1;
+            Array enumValues = Enum.GetValues(i_EnumType);
+            int counter = k_MinimumUserChoiceValue;
             string userInput;
             bool userInputParsedSuccessfully;
 
             Console.WriteLine("Please select type (by choosing the item's number):");
-            foreach (Enum value in enumValues)
+            foreach(Enum value in enumValues)
             {
                 Console.WriteLine(@"{0} - {1}", counter, value);
                 counter++;
@@ -328,11 +329,11 @@ Vehicle status: {2}", vehicleInGarage.OwnerDetails.Name, vehicleInGarage.OwnerDe
             }
 
             return userInputAsInt;
-        } //DONE
+        }
 
         private bool validateSelectionRange(int i_UserChoice, int i_NumOfElements)
         {
             return i_UserChoice > 0 && i_UserChoice <= i_NumOfElements;
-        } //DONE
+        }
     }
 }

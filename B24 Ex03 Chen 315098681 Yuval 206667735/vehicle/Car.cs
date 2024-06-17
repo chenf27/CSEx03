@@ -20,28 +20,13 @@ namespace Ex03.GarageLogic
             Black
         }
 
-        public eCarColor CarColor
-        {
-            get
-            {
-                return m_CarColor;
-            }
-        }
-
-        public int NumOfDoors
-        {
-            get
-            {
-                return m_NumOfDoors;
-            }
-        }
-
         public override Dictionary<string, Type> GetParameters()
         {
             Dictionary<string, Type> parameters = base.GetParameters();
 
             parameters.Add("Car Color", typeof(eCarColor));
             parameters.Add("Number Of Doors", typeof(int));
+
             return parameters;
         }
 
@@ -51,6 +36,7 @@ namespace Ex03.GarageLogic
 
             parameters.Add("Car Color", m_CarColor.ToString());
             parameters.Add("Number Of Doors", m_NumOfDoors.ToString());
+            
             return parameters;
         }
 
@@ -71,14 +57,12 @@ namespace Ex03.GarageLogic
             validateCarParameters(carColorParsedSuccessfully, numOfDoorsParsedSuccessfully, numOfDoors);
             m_CarColor = (eCarColor)carColor;
             m_NumOfDoors = numOfDoors;
-            InitializeCarSpecificParameters(i_Parameters);
+            m_Engine.Initialize(i_Parameters);
         }
 
-        protected abstract void InitializeCarSpecificParameters(Dictionary<string, object> i_Parameters);
-
-        private void validateCarParameters(bool i_carColorParsedSuccessfully, bool i_NumOfDoorsParsedSuccessfully, int i_NumOfDoors)
+        private void validateCarParameters(bool i_CarColorParsedSuccessfully, bool i_NumOfDoorsParsedSuccessfully, int i_NumOfDoors)
         {
-            if (!i_carColorParsedSuccessfully)
+            if(!i_CarColorParsedSuccessfully)
             {
                 throw new ArgumentException("Color must be one of these values: Yellow, White, Red, Black");
             }

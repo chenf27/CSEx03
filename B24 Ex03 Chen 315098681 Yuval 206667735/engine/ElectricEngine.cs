@@ -1,16 +1,13 @@
 ﻿using Ex03.GarageLogic.engine;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
     public class ElectricEngine : Engine
     {
         private readonly float r_MaxBatteryHoursLeft;
-        private float m_RemainingBatteryHoursLeft;
+        private float m_RemainingBatteryHoursLeft = 0;
 
 
         public ElectricEngine(float i_MaxBatteryHoursLeft)
@@ -36,10 +33,11 @@ namespace Ex03.GarageLogic
 
             set
             {
-                if (value < 0 || value > r_MaxBatteryHoursLeft)
+                if(value < 0 || value > r_MaxBatteryHoursLeft || value < m_RemainingBatteryHoursLeft)
                 {
                     throw new ValueOutOfRangeException(0, r_MaxBatteryHoursLeft - m_RemainingBatteryHoursLeft, "remaining battery hours left");
                 }
+
                 m_RemainingBatteryHoursLeft = value;
                 m_EnergyLeftInTank = (m_RemainingBatteryHoursLeft / r_MaxBatteryHoursLeft) * 100;
             }
@@ -49,17 +47,55 @@ namespace Ex03.GarageLogic
         {
             bool hoursToChargeParsedSuccessfully;
 
-            if (!i_Parameters.ContainsKey("Hours To Charge"))
+            if(!i_Parameters.ContainsKey("Hours To Charge"))
             {
-                throw new ArgumentException("Missing parameter for recharging.");
+                throw new ArgumentException("Missing parameter for recharging. Make sure the selected vehicle has an electric engine");
             }
 
             hoursToChargeParsedSuccessfully = float.TryParse(i_Parameters["Hours To Charge"].ToString(), out float hoursToCharge);
-            if (!hoursToChargeParsedSuccessfully)
+            if(!hoursToChargeParsedSuccessfully)
             {
                 throw new FormatException("Hours to charge must be a valid number");
             }
+
             RemainingBatteryHoursLeft += hoursToCharge;
+        }
+
+        public override Dictionary<string, Type> GetParameters()
+        {
+            return new Dictionary<string, Type>()
+            {
+                { "Remaining Battery Hours Left", typeof(float) }
+            };
+        }
+
+        public override Dictionary<string, string> GetFilledParameters()
+        {
+            Dictionary<string, string> parameters = new Dictionary<string, string>
+            {
+                { "Engine type", "Electricity" },
+                { "Maximum Battery Hours", MaxBatteryHoursLeft.ToString() },
+                { "Remaining Battery Hours", RemainingBatteryHoursLeft.ToString() }
+            };
+
+            foreach(KeyValuePair<string, string> pair in base.GetFilledParameters())
+            {
+                parameters[pair.Key] = pair.Value;
+            }
+            
+            return parameters;
+        }
+
+        public override void Initialize(Dictionary<string, object> i_Parameters)
+        {
+            bool remainingBatteryParsedSuccessfully = float.TryParse(i_Parameters["Remaining Battery Hours Left"].ToString(), out float remainingBatteryHoursLeft);
+
+            if(!remainingBatteryParsedSuccessfully)
+            {
+                throw new FormatException("Current amount of fuel in tank must be a number");
+            }
+
+            RemainingBatteryHoursLeft = remainingBatteryHoursLeft;
         }
     }
 }

@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Ex03.GarageLogic.Car;
 
 namespace Ex03.GarageLogic
 {
@@ -20,31 +16,27 @@ namespace Ex03.GarageLogic
         public override Dictionary<string, Type> GetParameters()
         {
             Dictionary<string, Type> parameters = base.GetParameters();
+            Dictionary<string, Type> engineParameters = m_Engine.GetParameters();
 
-            parameters.Add("Current Amount of Fuel In Tank", typeof(float));
+            foreach(KeyValuePair<string, Type> param in engineParameters)
+            {
+                parameters.Add(param.Key, param.Value);
+            }
+
             return parameters;
         }
 
         public override Dictionary<string, string> GetFilledParameters()
         {
             Dictionary<string, string> parameters = base.GetFilledParameters();
+            Dictionary<string, string> engineParameters = m_Engine.GetFilledParameters();
 
-            parameters.Add("Engine type", "Fuel");
-            parameters.Add("Fuel type", k_FuelType.ToString());
-            parameters.Add("Energy left", m_Engine.EnergyLeftInTank.ToString());
-            return parameters;
-        }
-
-        protected override void InitializeCarSpecificParameters(Dictionary<string, object> i_Parameters)
-        {
-            bool remainingfuelParsedSuccessfully = float.TryParse(i_Parameters["Current Amount of Fuel In Tank"].ToString(), out float currentAmountOfFuelInTank);
-
-            if (!remainingfuelParsedSuccessfully)
+            foreach(KeyValuePair<string, string> param in engineParameters)
             {
-                throw new FormatException("Current amount of fuel in tank must be a number");
+                parameters.Add(param.Key, param.Value);
             }
 
-            ((FuelEngine)m_Engine).CurrentAmountOfFuelInTank = currentAmountOfFuelInTank;
+            return parameters;
         }
     }
 }

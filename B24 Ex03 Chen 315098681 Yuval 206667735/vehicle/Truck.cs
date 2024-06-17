@@ -20,10 +20,14 @@ namespace Ex03.GarageLogic
         public override Dictionary<string, Type> GetParameters()
         {
             Dictionary<string, Type> parameters = base.GetParameters();
+            Dictionary<string, Type> engineParameters = m_Engine.GetParameters();
 
             parameters.Add("Contains Hazardous Materials", typeof(bool));
             parameters.Add("Cargo Volume", typeof(float));
-            parameters.Add("Current Amount of Fuel In Tank", typeof(float));
+            foreach(KeyValuePair<string, Type> param in engineParameters)
+            {
+                parameters.Add(param.Key, param.Value);
+            }
 
             return parameters;
         }
@@ -40,41 +44,41 @@ namespace Ex03.GarageLogic
         public override Dictionary<string, string> GetFilledParameters()
         {
             Dictionary<string, string> parameters = base.GetFilledParameters();
+            Dictionary<string, string> engineParameters = m_Engine.GetFilledParameters();
 
             parameters.Add("Contains Hazardous Materials", m_ContainsHazardousMaterials.ToString());
             parameters.Add("Cargo Volume", m_CargoVolume.ToString());
-            parameters.Add("Engine type", "Fuel");
-            parameters.Add("Fuel type", k_FuelType.ToString());
-            parameters.Add("Energy left", m_Engine.EnergyLeftInTank.ToString());
-
+            foreach(KeyValuePair<string, string> param in engineParameters)
+            {
+                parameters.Add(param.Key, param.Value);
+            }
+            
             return parameters;
         }
 
         protected override void InitializeUniqueParameters(Dictionary<string, object> i_Parameters)
         {
-            m_ContainsHazardousMaterials = (bool)i_Parameters["Contains Hazardous Materials"];
-            bool cargoParsedSuccessfully = float.TryParse(i_Parameters["Cargo Volume"].ToString(), out float cargoVolume);
-            bool remainingfuelParsedSuccessfully = float.TryParse(i_Parameters["Current Amount of Fuel In Tank"].ToString(), out float currentAmountOfFuelInTank);
-            validateTruckParameters(cargoParsedSuccessfully, remainingfuelParsedSuccessfully);
+            bool cargoParsedSuccessfully;
+            bool containsHazardousMaterials;
 
-            if (cargoVolume < 0)
-            {
-                throw new ValueOutOfRangeException(0, int.MaxValue, "cargo volume");
-            }
-
+            containsHazardousMaterials = (bool)i_Parameters["Contains Hazardous Materials"];
+            cargoParsedSuccessfully = float.TryParse(i_Parameters["Cargo Volume"].ToString(), out float cargoVolume);
+            validateTruckParameters(cargoParsedSuccessfully, cargoVolume);
+            m_ContainsHazardousMaterials = containsHazardousMaterials;
+            m_Engine.Initialize(i_Parameters);
             m_CargoVolume = cargoVolume;
-            ((FuelEngine)m_Engine).CurrentAmountOfFuelInTank = currentAmountOfFuelInTank;
         }
 
-        private void validateTruckParameters(bool i_CargoParsedSuccessfully, bool i_RemainingfuelParsedSuccessfully)
+        private void validateTruckParameters(bool i_CargoParsedSuccessfully, float i_CargoVolume)
         {
-            if (!i_CargoParsedSuccessfully)
+            if(!i_CargoParsedSuccessfully)
             {
-                throw new FormatException("Cargo volume must be a number");
+                throw new FormatException("Cargo volume must be a number!");
             }
-            if (!i_RemainingfuelParsedSuccessfully)
+            
+            if (i_CargoVolume < 0)
             {
-                throw new FormatException("Current amount of fuel in tank must be a number");
+                throw new ValueOutOfRangeException(0, int.MaxValue, "cargo volume");
             }
         }
     }

@@ -4,38 +4,45 @@ namespace Ex03.GarageLogic
 {
     public class GarageManager
     {
-        private Dictionary<string, VehicleInGarage> m_VehiclesByLicensePlate = new Dictionary<string, VehicleInGarage>();
+        private readonly Dictionary<string, VehicleInGarage> r_VehiclesByLicensePlate = new Dictionary<string, VehicleInGarage>();
+
+        public Dictionary<string, VehicleInGarage> VehiclesByLicensePlate
+        {
+            get
+            {
+                return r_VehiclesByLicensePlate;
+            }
+        }
 
         public bool IsVehicleInGarage(string i_LicensePlate)
         {
-            return m_VehiclesByLicensePlate.ContainsKey(i_LicensePlate);
+            return r_VehiclesByLicensePlate.ContainsKey(i_LicensePlate);
         }
 
         public void SetVehicleInGarageStatus(string i_LicensePlate, VehicleInGarage.eStatus i_Status)
         {
-            VehicleInGarage vehicleInGarage = m_VehiclesByLicensePlate[i_LicensePlate];
+            VehicleInGarage vehicleInGarage = r_VehiclesByLicensePlate[i_LicensePlate];
             vehicleInGarage.VehicleStatus = i_Status;
         }
 
-        public void InflatingTireToMax(string i_LicensePlate)
+        public void InflateTiresToMax(string i_LicensePlate)
         {
-            VehicleInGarage vehicleInGarage = m_VehiclesByLicensePlate[i_LicensePlate];
+            VehicleInGarage vehicleInGarage = r_VehiclesByLicensePlate[i_LicensePlate];
             float maxCapacity = vehicleInGarage.Vehicle.Tires[0].MaxAirPressure;
             float currentCapacity = vehicleInGarage.Vehicle.Tires[0].CurrentAirPressure;
             float missingValueForMaxCapacity = maxCapacity - currentCapacity;
 
             foreach(Tire tire in vehicleInGarage.Vehicle.Tires)
             {
-                tire.InflatingTire(missingValueForMaxCapacity);
+                tire.InflateTire(missingValueForMaxCapacity);
             }
         }
-
 
         public List<string> GetLicensePlatesByStatus(int i_Status)
         {
             List<string> licensePlates = new List<string>();
 
-            foreach(KeyValuePair<string, VehicleInGarage> vehicleInGarage in m_VehiclesByLicensePlate)
+            foreach(KeyValuePair<string, VehicleInGarage> vehicleInGarage in r_VehiclesByLicensePlate)
             {
                 if(vehicleInGarage.Value.VehicleStatus.Equals((VehicleInGarage.eStatus)i_Status))
                 {
@@ -50,20 +57,12 @@ namespace Ex03.GarageLogic
         {
             VehicleInGarage vehicleInGarage = new VehicleInGarage(i_Vehicle, i_Owner);
 
-            m_VehiclesByLicensePlate.Add(vehicleInGarage.Vehicle.LicensePlate, vehicleInGarage);
+            r_VehiclesByLicensePlate.Add(i_Vehicle.LicensePlate, vehicleInGarage);
         }
 
-        public void SetVehicleInGarageStatus(string licensePlate, int newStatus)
+        public void SetVehicleInGarageStatus(string i_LicensePlate, int i_NewStatus)
         {
-            m_VehiclesByLicensePlate[licensePlate].VehicleStatus = (VehicleInGarage.eStatus)(newStatus);
-        }
-
-        public Dictionary<string, VehicleInGarage> VehiclesByLicensePlate
-        {
-            get
-            {
-                return m_VehiclesByLicensePlate;
-            }
+            r_VehiclesByLicensePlate[i_LicensePlate].VehicleStatus = (VehicleInGarage.eStatus)(i_NewStatus);
         }
 
         public void InstallTiresOnVehicle(Vehicle io_Vehicle, float i_CurrentTireAirPressure, string i_Manufacturer)

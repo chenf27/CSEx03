@@ -12,22 +12,6 @@ namespace Ex03.GarageLogic
         protected Engine m_Engine;
         private const int k_FirstTire = 0;
 
-        public float EnergyLeftInTank
-        {
-            get
-            {
-                return m_Engine.EnergyLeftInTank;
-            }
-        }
-
-        public string ModelName
-        {
-            get
-            {
-                return m_ModelName;
-            }
-        }
-
         public string LicensePlate
         {
             get
@@ -105,18 +89,12 @@ namespace Ex03.GarageLogic
 
         protected abstract void InitializeUniqueParameters(Dictionary<string, object> i_Parameters);
 
-        protected void ValidateCommonParameters(string licensePlate, string modelName)
+        protected void ValidateCommonParameters(string i_LicensePlate, string i_ModelName)
         {
-            if (string.IsNullOrWhiteSpace(licensePlate) || string.IsNullOrWhiteSpace(modelName))
+            if(string.IsNullOrWhiteSpace(i_LicensePlate) || string.IsNullOrWhiteSpace(i_ModelName))
             {
                 throw new ArgumentException("License Plate and Model Name cannot be null or empty.");
             }
         }
-        //TODO unused method - delete?
-        public void RefuelOrRecharge(Dictionary<string, object> i_Parameters)
-        {
-            m_Engine.RefuelOrRecharge(i_Parameters);
-        }
-
     }
 }

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic.engine
 {
@@ -23,5 +20,17 @@ namespace Ex03.GarageLogic.engine
         }
 
         public abstract void RefuelOrRecharge(Dictionary<string, object> i_Parameters);
+
+        public abstract Dictionary<string, Type> GetParameters();
+
+        public virtual Dictionary<string, string> GetFilledParameters()
+        {
+            return new Dictionary<string, string>
+            {
+                { "Energy left", string.Format($"{EnergyLeftInTank}%") }
+            };
+        }
+
+        public abstract void Initialize(Dictionary<string, object> i_Parameters);
     }
 }
