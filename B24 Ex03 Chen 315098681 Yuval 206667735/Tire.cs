@@ -9,7 +9,7 @@ namespace Ex03.GarageLogic
     public class Tire
     {
         private readonly string r_Manufacturer;
-        private float m_CurrentAirPressure;
+        private float m_CurrentAirPressure = 0;
         private readonly float r_MaxAirPressure;
 
         public Tire(string i_Manufacturer, float i_CurrentAirPressure, float i_MaxAirPressure)
@@ -19,17 +19,11 @@ namespace Ex03.GarageLogic
             r_MaxAirPressure = i_MaxAirPressure;
         }
 
-
-        //TODO EXCEPTIONS
         public void InflatingTire(float i_AirPressureToAdd)
         {
-            if (i_AirPressureToAdd < 0)
+            if (i_AirPressureToAdd < 0 || i_AirPressureToAdd + m_CurrentAirPressure > r_MaxAirPressure)
             {
-                //PROBLEM!!
-            }
-            else if (i_AirPressureToAdd + m_CurrentAirPressure > r_MaxAirPressure)
-            {
-                //ANOTHER PROBLEM!!
+                throw new ValueOutOfRangeException(0, r_MaxAirPressure - m_CurrentAirPressure, "air pressure left to inflate");
             }
             else
             {
@@ -49,7 +43,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return m_CurrentAirPressure; 
+                return r_MaxAirPressure; 
             }
         }
         

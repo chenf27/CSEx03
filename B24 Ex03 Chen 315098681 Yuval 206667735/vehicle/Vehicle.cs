@@ -10,6 +10,7 @@ namespace Ex03.GarageLogic
         protected string m_ModelName;
         protected Tire[] m_Tires;
         protected Engine m_Engine;
+        private const int k_FirstTire = 0;
 
         public float EnergyLeftInTank
         {
@@ -60,7 +61,6 @@ namespace Ex03.GarageLogic
             return new Dictionary<string, Type>
             {
                 { "Model Name", typeof(string) }
-                // { "Tires Air Pressure", typeof(float) }
             };
         }
 
@@ -69,11 +69,16 @@ namespace Ex03.GarageLogic
             return new Dictionary<string, string>
             {
                 { "License Plate", m_LicensePlate },
-                { "Model Name", m_ModelName }
-                // { "Tires Air Pressure", typeof(float) }
+                { "Model Name", m_ModelName },
+                { "Number Of Tires", m_Tires.Length.ToString() },
+                { "Tires Manufacturer", m_Tires[k_FirstTire].Manufacturer },
+                { "Tires Current Air Pressure", m_Tires[k_FirstTire].CurrentAirPressure.ToString() },
+                { "Tires Max Air Pressure", m_Tires[k_FirstTire].MaxAirPressure.ToString() },
             };
         }
 
+        public abstract Dictionary<string, string> GetTiresKnownInfo();
+            
         public virtual void Initialize(Dictionary<string, object> i_Parameters)
         {
             try

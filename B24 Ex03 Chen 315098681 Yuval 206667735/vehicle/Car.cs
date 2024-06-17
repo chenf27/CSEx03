@@ -54,6 +54,15 @@ namespace Ex03.GarageLogic
             return parameters;
         }
 
+        public override Dictionary<string, string> GetTiresKnownInfo()
+        {
+            return new Dictionary<string, string>
+            {
+                { "Max Air Pressure In Tires", k_MaxAirTirePressure.ToString() },
+                { "Number Of Tires", k_NumOfTires.ToString() }
+            };
+        }
+
         protected override void InitializeUniqueParameters(Dictionary<string, object> i_Parameters)
         {
             bool carColorParsedSuccessfully = int.TryParse(i_Parameters["Car Color"].ToString(), out int carColor);

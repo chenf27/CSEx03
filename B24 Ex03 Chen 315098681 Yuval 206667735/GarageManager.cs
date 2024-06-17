@@ -1,4 +1,4 @@
-﻿using Ex03.GarageLogic.vehicle;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Ex03.GarageLogic
@@ -6,12 +6,8 @@ namespace Ex03.GarageLogic
     public class GarageManager
     {
         private Dictionary<string, VehicleInGarage> m_VehiclesByLicensePlate = new Dictionary<string, VehicleInGarage>();
-        public const float k_CarMaxAirPressure = 31;
-        public const int k_CarNumOfTires = 5;
-        public const float k_CarMaxBatteryHoursLeft = 3.5f;
 
-
-        public bool AlreadyInGarage(string i_LicensePlate)
+        public bool IsVehicleInGarage(string i_LicensePlate)
         {
             return m_VehiclesByLicensePlate.ContainsKey(i_LicensePlate);
         }
@@ -35,23 +31,6 @@ namespace Ex03.GarageLogic
             }
         }
 
-        // ------------------------------DELETE? we dont use it------------------------------
-        private float generateCurrentEnergyLevel(VehicleFactory.eVehicleType i_VehicleType, float i_EnergyLeftInTank)
-        {
-            float energyLevel = 0;
-            switch (i_VehicleType)
-            {
-                case VehicleFactory.eVehicleType.ElectricCar:
-                    energyLevel = k_CarMaxBatteryHoursLeft * i_EnergyLeftInTank / 100;
-                    break;
-
-                case VehicleFactory.eVehicleType.FuelCar:
-                    break;
-
-            }
-
-            return energyLevel;
-        }
 
         public List<string> GetLicensePlatesByStatus(int i_Status)
         {
@@ -86,6 +65,23 @@ namespace Ex03.GarageLogic
             {
                 return m_VehiclesByLicensePlate;
             }
+        }
+
+        public void InstallTiresOnVehicle(Vehicle io_Vehicle, float i_CurrentTireAirPressure, string i_Manufacturer)
+        {
+            Dictionary<string, string> parameters = io_Vehicle.GetTiresKnownInfo();
+            int.TryParse(parameters["Number Of Tires"],out int numOfTires);
+            float.TryParse(parameters["Max Air Pressure In Tires"], out float maxAirPressure);
+            Tire[] tires = new Tire[numOfTires];
+
+            //TODO CHECKS THAT CURR AIR PRESSURE ISNT MORE THAN MAX
+            //TODO MAYBE FOREACH, DIDNT WORK OUT LAST TIME
+            for(int i = 0; i < numOfTires; i++)
+            {
+                tires[i] = new Tire(i_Manufacturer, i_CurrentTireAirPressure, maxAirPressure);
+            }
+
+            io_Vehicle.Tires = tires;
         }
     }
 }

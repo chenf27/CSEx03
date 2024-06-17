@@ -41,19 +41,5 @@ namespace Ex03.GarageLogic
 
             ((ElectricEngine)m_Engine).RemainingBatteryHoursLeft = remainingBatteryHoursLeft;
         }
-
-
-        /*ElectricEngine ElectricEngine
-        {
-            get 
-            {
-                return m_Engine;
-            }
-            set
-            {
-                m_Engine = value;
-            }
-        }*/     // Do we need this?
-
     }
 }

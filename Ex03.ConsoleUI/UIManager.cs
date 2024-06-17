@@ -16,7 +16,7 @@ namespace Ex03.ConsoleUI
             string userInput;
             bool validInput = false;
 
-            Console.WriteLine("Hello, please select from the following options");
+            Console.WriteLine("Please select from the following options");
             while (!validInput)
             {
                 Console.WriteLine(@"1 - Enter a vehicle to the garage
@@ -39,6 +39,7 @@ namespace Ex03.ConsoleUI
 
         public void PuttingCarToGarage()
         {
+            //TODO ONCE IN THE PROGRAM VehicleFactory
             string licensePlate;
             VehicleFactory vehicleFactory = new VehicleFactory();
             Vehicle vehicle;
@@ -48,7 +49,7 @@ namespace Ex03.ConsoleUI
 
             Console.WriteLine("Please enter the license plate of the vehicle");
             licensePlate = Console.ReadLine();
-            if (m_GarageManager.AlreadyInGarage(licensePlate))
+            if (m_GarageManager.IsVehicleInGarage(licensePlate))
             {
                 Console.WriteLine("HOLA! The vehicle is already in our garage");
                 m_GarageManager.SetVehicleInGarageStatus(licensePlate, VehicleInGarage.eStatus.UnderRepair);
@@ -59,9 +60,23 @@ namespace Ex03.ConsoleUI
                 vehicle =  vehicleFactory.CreateUninitializesVehicle(vehicleType);
                 parameters = getVehicleParameters(vehicle, licensePlate);
                 vehicle.Initialize(parameters);
+                //TODO MAYBE DIFFRENT NAME FOR THIS METHOD
+                dealingWithTires(vehicle);
                 owner = SetOwnerDetails();
                 m_GarageManager.EnterVehicleToGarage(vehicle, owner);
             }
+        }
+
+        private void dealingWithTires(Vehicle io_Vehicle)
+        {
+            string manufacturer;
+
+            Console.WriteLine("Please enter the tires manufaturer");
+            manufacturer = Console.ReadLine();
+            Console.WriteLine("Please enter the tires current air pressure");
+            //TODO PARSE SUCCSESS
+            float.TryParse(Console.ReadLine(), out float currentAirPressure);
+            m_GarageManager.InstallTiresOnVehicle(io_Vehicle, currentAirPressure, manufacturer);
         }
 
         private Dictionary<string, Object> getVehicleParameters(Vehicle i_Vehicle, string i_LicensePlate)
@@ -104,11 +119,12 @@ namespace Ex03.ConsoleUI
             Console.WriteLine("Please enter your license Plate:");
             licensePlate = Console.ReadLine();
 
-            if(m_GarageManager.AlreadyInGarage(licensePlate))
+            if(m_GarageManager.IsVehicleInGarage(licensePlate))
             {
                 vehicleInGarage = m_GarageManager.VehiclesByLicensePlate[licensePlate];
                 parameters = vehicleInGarage.Vehicle.GetFilledParameters();
-
+                
+                //TODO PRINT PRETTY
                 foreach(KeyValuePair<string, string> item in parameters)
                 {
                     Console.WriteLine(item.Key);
@@ -173,7 +189,7 @@ Vehicle status
 
             Console.WriteLine("Please enter your vehicle's license plate:");
             licensePlate = Console.ReadLine();
-            if(m_GarageManager.AlreadyInGarage(licensePlate))
+            if(m_GarageManager.IsVehicleInGarage(licensePlate))
             {
                 newStatus = getEnumSelection(typeof(VehicleInGarage.eStatus));
                 m_GarageManager.SetVehicleInGarageStatus(licensePlate, newStatus);
@@ -184,13 +200,30 @@ Vehicle status
             }
         }
 
-        //TODO
         public void InflatingTireToMax()
         {
             string licensePlate;
+            float maxAirPressre, currentAirPressure, airPressureToAdd;
+            Vehicle vehicle;
+
             Console.WriteLine("Please enter your vehicle's license plate:");
             licensePlate = Console.ReadLine();
+            if(m_GarageManager.IsVehicleInGarage(licensePlate))
+            {
+                vehicle = m_GarageManager.VehiclesByLicensePlate[licensePlate].Vehicle;
+                currentAirPressure = vehicle.Tires[0].CurrentAirPressure;
+                maxAirPressre = vehicle.Tires[0].MaxAirPressure;
+                airPressureToAdd = maxAirPressre - currentAirPressure;
 
+                foreach(Tire tire in vehicle.Tires)
+                {
+                    tire.InflatingTire(airPressureToAdd);
+                }
+            }
+            else
+            {
+                Console.WriteLine("This vehicle is not in the garage!");
+            }
         }
 
         public VehicleInGarage.Owner SetOwnerDetails()
@@ -214,7 +247,7 @@ Vehicle status
 
             Console.WriteLine("Please enter the Vehicle License Plate");
             licensePlate = Console.ReadLine();
-            if(m_GarageManager.AlreadyInGarage(licensePlate))
+            if(m_GarageManager.IsVehicleInGarage(licensePlate))
             {
                 if (i_FuelTypeVehicle)
                 {
@@ -238,6 +271,7 @@ Vehicle status
         {
             Dictionary<string, object> parameters = new Dictionary<string, object>();
 
+            //TODO TRY PARSE CHECK IN GENERAL
             Console.WriteLine("Please enter how many hours to charge");
             float.TryParse(Console.ReadLine(), out float amountToChargeOrFuel);
             parameters["Hours To Charge"] = amountToChargeOrFuel;
@@ -250,6 +284,7 @@ Vehicle status
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             int fuelType;
 
+            //TODO TRY PARSE CHECK
             Console.WriteLine("Please enter how many liters to refuel");
             float.TryParse(Console.ReadLine(), out float amountToFuel);
             parameters["Liters To Add"] = amountToFuel;

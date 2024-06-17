@@ -76,26 +76,6 @@ namespace Ex03.GarageLogic
         }
 
 
-        /*public void Refueling(float i_LittersToAdd, eFuelType i_FuelType)
-        {
-            if (checkTankCapacity(i_LittersToAdd) && checkFuelType(i_FuelType))
-            {
-                m_CurrentAmountOfFuelInTank += i_LittersToAdd;
-            }
-            else
-            {
-                //PROBLEM!!
-            }
-        }
-
-        private bool checkFuelType(eFuelType i_FuelType)
-        {
-            return i_FuelType == r_FuelType;
-        }
-
-        private bool checkTankCapacity(float i_LittersToAdd)
-        {
-            return i_LittersToAdd >= 0 && i_LittersToAdd + m_CurrentAmountOfFuelInTank <= r_MaxFuelTankCapacity;   
-        }*/
+        
     }
 }

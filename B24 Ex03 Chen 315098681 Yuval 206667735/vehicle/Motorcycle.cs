@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 
 namespace Ex03.GarageLogic
 {
     public abstract class Motorcycle : Vehicle
     {
         protected eLicenseType m_LicenseType;
-        protected int m_EngineCapacity;
-        
-        public const float k_MaxAirPressure = 33;
+        protected int m_EngineCapacity;        
+        public const float k_MaxAirTirePressure = 33;
         public const int k_NumOfTires = 2;
 
-        
         public enum eLicenseType
         {
             A = 1,
@@ -53,6 +52,16 @@ namespace Ex03.GarageLogic
             parameters.Add("Engine Capacity", m_EngineCapacity.ToString());
             return parameters;
         }
+
+        public override Dictionary<string, string> GetTiresKnownInfo()
+        {
+            return new Dictionary<string, string>
+            {
+                { "Max Air Pressure In Tires", k_MaxAirTirePressure.ToString() },
+                { "Number Of Tires", k_NumOfTires.ToString() }
+            };
+        }
+
 
         protected override void InitializeUniqueParameters(Dictionary<string, object> i_Parameters)
         {

@@ -57,32 +57,9 @@ namespace Ex03.GarageLogic
             hoursToChargeParsedSuccessfully = float.TryParse(i_Parameters["Hours To Charge"].ToString(), out float hoursToCharge);
             if (!hoursToChargeParsedSuccessfully)
             {
-                throw new FormatException("Hours to charge must be a vaid number");
+                throw new FormatException("Hours to charge must be a valid number");
             }
             RemainingBatteryHoursLeft += hoursToCharge;
         }
-
-
-        /*public void Charging(float i_HoursToCharge)
-        {
-            if (i_HoursToCharge < 0)
-            {
-                //PROBLEM!!
-            }
-            else if (i_HoursToCharge + m_RemainingBatteryHoursLeft > r_MaxBatteryHoursLeft)
-            {
-                //ANOTHER PROBLEM!!
-            }
-            else
-            {
-                m_RemainingBatteryHoursLeft += i_HoursToCharge;
-            }
-
-        }*/
-
-        /*public void CharceVechile(float i_HoursToCharge)
-        {
-            
-        }*/
     }
 }

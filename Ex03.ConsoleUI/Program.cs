@@ -1,16 +1,11 @@
 ﻿using System;
 
 /// <summary>
-/// Implent tires ---------------------- not yet
+/// Implent tires ---------------------- done
 /// catch in run function -------------- done? needs more testing but so far it looks fine
 /// overall lookout -------------------- need to do at the end
-/// delete duplicates function --------- deleted, but maybe I missed some
 /// add known params to function 7 ----- didn't understand what you meant, so not done
-/// myabe change set owner ------------- done
-/// use generic function when possible - done
-/// unify enum handlling in vehicles --- done
-/// fixed some issues in engines ------- done
-/// add consts in UIManager? ----------- your call
+/// maybe do get parameters also in the engine to avoid duplicte code?
 /// </summary> 
 
 namespace Ex03.ConsoleUI
@@ -28,6 +23,7 @@ namespace Ex03.ConsoleUI
             const bool v_FuelTypeVehicle = true;
             int userChoice;
 
+            Console.WriteLine("Hello! Welcome to our garage");
             while (true)
             {
                 try

@@ -52,6 +52,15 @@ namespace Ex03.GarageLogic
             return parameters;
         }
 
+        public override Dictionary<string, string> GetTiresKnownInfo()
+        {
+            return new Dictionary<string, string>
+            {
+                { "Max Air Pressure In Tires", k_MaxAirTirePressure.ToString() },
+                { "Number Of Tires", k_NumOfTires.ToString() }
+            };
+        }
+
         public override Dictionary<string, string> GetFilledParameters()
         {
             Dictionary<string, string> parameters = base.GetFilledParameters();
