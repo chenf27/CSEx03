@@ -46,6 +46,7 @@ namespace Ex03.GarageLogic
             Dictionary<string, string> parameters = base.GetFilledParameters();
             Dictionary<string, string> engineParameters = m_Engine.GetFilledParameters();
 
+            parameters.Add("Vehicle Type", "Truck");
             parameters.Add("Contains Hazardous Materials", m_ContainsHazardousMaterials.ToString());
             parameters.Add("Cargo Volume", m_CargoVolume.ToString());
             foreach(KeyValuePair<string, string> param in engineParameters)

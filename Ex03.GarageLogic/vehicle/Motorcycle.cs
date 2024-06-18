@@ -21,9 +21,14 @@ namespace Ex03.GarageLogic
         public override Dictionary<string, Type> GetParameters()
         {
             Dictionary<string, Type> parameters = base.GetParameters();
+            Dictionary<string, Type> engineParameters = m_Engine.GetParameters();
 
             parameters.Add("License Type", typeof(eLicenseType));
             parameters.Add("Engine Capacity", typeof(int));
+            foreach (KeyValuePair<string, Type> param in engineParameters)
+            {
+                parameters.Add(param.Key, param.Value);
+            }
 
             return parameters;
         }
@@ -31,9 +36,15 @@ namespace Ex03.GarageLogic
         public override Dictionary<string, string> GetFilledParameters()
         {
             Dictionary<string, string> parameters = base.GetFilledParameters();
+            Dictionary<string, string> engineParameters = m_Engine.GetFilledParameters();
 
+            parameters.Add("Vehicle type", "Motorcycle");
             parameters.Add("License Type", m_LicenseType.ToString());
             parameters.Add("Engine Capacity", m_EngineCapacity.ToString());
+            foreach (KeyValuePair<string, string> param in engineParameters)
+            {
+                parameters.Add(param.Key, param.Value);
+            }
 
             return parameters;
         }

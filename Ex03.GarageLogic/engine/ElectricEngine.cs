@@ -73,7 +73,7 @@ namespace Ex03.GarageLogic
         {
             Dictionary<string, string> parameters = new Dictionary<string, string>
             {
-                { "Engine type", "Electricity" },
+                { "Engine type", "Electric" },
                 { "Maximum Battery Hours", MaxBatteryHoursLeft.ToString() },
                 { "Remaining Battery Hours", RemainingBatteryHoursLeft.ToString() }
             };
