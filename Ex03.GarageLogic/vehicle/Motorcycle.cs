@@ -1,14 +1,20 @@
-﻿using System;
+﻿using Ex03.GarageLogic.engine;
+using System;
 using System.Collections.Generic;
 
 namespace Ex03.GarageLogic
 {
-    public abstract class Motorcycle : Vehicle
+    public class Motorcycle : Vehicle
     {
         protected eLicenseType m_LicenseType;
         protected int m_EngineCapacity;        
         public const float k_MaxAirTirePressure = 33;
         public const int k_NumOfTires = 2;
+
+        internal Motorcycle(Engine i_Engine)
+        {
+            base.m_Engine = i_Engine;
+        }
 
         public enum eLicenseType
         {

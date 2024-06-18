@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ex03.GarageLogic.engine;
+using System;
 using System.Collections.Generic;
 
 namespace Ex03.GarageLogic
@@ -9,12 +10,10 @@ namespace Ex03.GarageLogic
         private float m_CargoVolume;
         private const float k_MaxAirTirePressure = 28;
         private const int k_NumOfTires = 12;
-        private const FuelEngine.eFuelType k_FuelType = FuelEngine.eFuelType.Soler;
-        private const float k_MaxFuelTankCapacity = 120;
 
-        internal Truck()
+        internal Truck(Engine i_Engine)
         {
-            base.m_Engine = new FuelEngine(k_FuelType, k_MaxFuelTankCapacity);
+            base.m_Engine = i_Engine;
         }
 
         public override Dictionary<string, Type> GetParameters()

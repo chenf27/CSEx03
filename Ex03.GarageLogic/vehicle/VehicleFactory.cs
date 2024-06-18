@@ -1,9 +1,20 @@
-﻿using System;
+﻿using Ex03.GarageLogic.engine;
+using System;
 
 namespace Ex03.GarageLogic.vehicle
 {
     public class VehicleFactory
     {
+        private const float k_ElectricCarMaxBatteryLifeInHours = 3.5f;
+        private const float k_ElectricMotorcycleMaxBatteryLifeInHours = 2.5f;
+        private const float k_CarFuelMaxFuelTankCapacity = 45;
+        private const float k_MotorcycleFuelMaxFuelTankCapacity = 5.5f; 
+        private const float k_TruckMaxFuelTankCapacity = 120;
+        private const FuelEngine.eFuelType k_CarFuelType = FuelEngine.eFuelType.Octan95;
+        private const FuelEngine.eFuelType k_MotorcycleFuelType = FuelEngine.eFuelType.Octan98;
+        private const FuelEngine.eFuelType k_TruckFuelType = FuelEngine.eFuelType.Soler;
+
+
         public enum eVehicleType
         {
             ElectricCar = 1,
@@ -16,23 +27,29 @@ namespace Ex03.GarageLogic.vehicle
         private Vehicle createVehicle(eVehicleType i_VehicleType) 
         {
             Vehicle newVehicle;
+            Engine engine;
 
             switch (i_VehicleType)
             {
                 case eVehicleType.ElectricCar:
-                    newVehicle = new ElectricTypeCar();
+                    engine = new ElectricEngine(k_ElectricCarMaxBatteryLifeInHours);
+                    newVehicle = new Car(engine);
                     break;
                 case eVehicleType.FuelCar:
-                    newVehicle = new FuelTypeCar();
+                    engine = new FuelEngine(k_CarFuelType, k_CarFuelMaxFuelTankCapacity);
+                    newVehicle = new Car(engine);
                     break;
                 case eVehicleType.ElectricMotorcycle:
-                    newVehicle = new ElectricTypeMotorcycle();
+                    engine = new ElectricEngine(k_ElectricMotorcycleMaxBatteryLifeInHours);
+                    newVehicle = new Motorcycle(engine);
                     break;
                 case eVehicleType.FuelMotorcycle:
-                    newVehicle = new FuelTypeMotorcycle();
+                    engine = new FuelEngine(k_MotorcycleFuelType, k_MotorcycleFuelMaxFuelTankCapacity);
+                    newVehicle = new Motorcycle(engine);
                     break;
                 case eVehicleType.Truck:
-                    newVehicle = new Truck();
+                    engine = new FuelEngine(k_TruckFuelType, k_TruckMaxFuelTankCapacity);
+                    newVehicle = new Truck(engine);
                     break;
                 default:
                     throw new ArgumentException("Unsupported vehicle type!");

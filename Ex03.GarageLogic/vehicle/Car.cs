@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Ex03.GarageLogic.engine;
+using System;
 using System.Collections.Generic;
 
 namespace Ex03.GarageLogic
 {
-    public abstract class Car : Vehicle
+    public class Car : Vehicle
     {
         protected eCarColor m_CarColor;
         protected int m_NumOfDoors;
@@ -11,6 +12,11 @@ namespace Ex03.GarageLogic
         private const int k_MaxNumOfDoors = 5;
         private const int k_NumOfTires = 5;
         private const float k_MaxAirTirePressure = 31;
+
+        internal Car(Engine i_Engine)
+        {
+            base.m_Engine = i_Engine;
+        }
 
         public enum eCarColor
         {

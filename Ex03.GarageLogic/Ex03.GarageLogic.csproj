@@ -44,10 +44,6 @@
     <Compile Include="engine\FuelEngine.cs" />
     <Compile Include="ValueOutOfRangeException.cs" />
     <Compile Include="vehicle\Car.cs" />
-    <Compile Include="vehicle\ElectricTypeCar.cs" />
-    <Compile Include="vehicle\ElectricTypeMotorcycle.cs" />
-    <Compile Include="vehicle\FuelTypeCar.cs" />
-    <Compile Include="vehicle\FuelTypeMotorcycle.cs" />
     <Compile Include="GarageManager.cs" />
     <Compile Include="vehicle\Motorcycle.cs" />
     <Compile Include="Tire.cs" />
